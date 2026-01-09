@@ -254,8 +254,9 @@
         .tweet {
             padding: 16px 20px;
             border-bottom: 1px solid #e1e8ed;
-            cursor: pointer;
             transition: background 0.2s;
+            display: flex;
+            gap: 12px;
         }
         
         .tweet:hover {
@@ -264,14 +265,14 @@
         
         .tweet-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 8px;
             margin-bottom: 8px;
         }
         
         .tweet-avatar {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             object-fit: cover;
             background: #e1e8ed;
@@ -279,18 +280,30 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        
+        .tweet-body {
+            flex: 1;
+            min-width: 0;
         }
         
         .tweet-author-info {
             display: flex;
             align-items: center;
-            gap: 8px;
-            flex: 1;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
         }
         
         .tweet-author {
             font-weight: 700;
             color: #0f1419;
+        }
+        
+        .tweet-user-id {
+            color: #536471;
+            font-size: 0.9em;
         }
         
         .tweet-lock {
@@ -308,7 +321,6 @@
             border-radius: 12px;
             font-size: 0.85em;
             font-weight: 600;
-            margin-left: 8px;
         }
         
         .category-art {
@@ -323,8 +335,13 @@
         
         .tweet-title {
             font-weight: 700;
-            font-size: 1.1em;
+            font-size: 1em;
             margin-bottom: 6px;
+            cursor: pointer;
+        }
+        
+        .tweet-title:hover {
+            text-decoration: underline;
         }
         
         .category-filter {
@@ -359,13 +376,69 @@
             line-height: 1.5;
             margin-bottom: 12px;
             white-space: pre-wrap;
+            font-size: 0.95em;
+        }
+        
+        .tweet-images {
+            display: grid;
+            gap: 4px;
+            margin-top: 12px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .tweet-images.single {
+            grid-template-columns: 1fr;
+            max-height: 300px;
+        }
+        
+        .tweet-images.double {
+            grid-template-columns: 1fr 1fr;
+            max-height: 280px;
+        }
+        
+        .tweet-images.multiple {
+            grid-template-columns: 1fr 1fr;
+            max-height: 280px;
         }
         
         .tweet-image {
             width: 100%;
-            border-radius: 16px;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .tweet-images.single .tweet-image {
+            max-height: 300px;
+        }
+        
+        .tweet-images.double .tweet-image,
+        .tweet-images.multiple .tweet-image {
+            height: 140px;
+        }
+        
+        .tweet-actions {
+            display: flex;
+            gap: 12px;
             margin-top: 12px;
-            border: 1px solid #e1e8ed;
+            padding-top: 8px;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #536471;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        
+        .delete-btn:hover {
+            background: #fee;
+            color: #e74c3c;
         }
         
         .post-detail {
@@ -413,11 +486,67 @@
             margin-bottom: 20px;
         }
         
-        .detail-image {
-            width: 100%;
-            border-radius: 16px;
+        .detail-images {
+            display: grid;
+            gap: 8px;
             margin: 20px 0;
+        }
+        
+        .detail-images.single {
+            grid-template-columns: 1fr;
+        }
+        
+        .detail-images.double {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .detail-images.multiple {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        
+        .detail-images img {
+            width: 100%;
+            border-radius: 12px;
             border: 1px solid #e1e8ed;
+        }
+        
+        .image-preview-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .image-preview {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e1e8ed;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-preview-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
         }
         
         .guestbook-compose {
@@ -668,10 +797,10 @@
                         <div class="compose-actions">
                             <div class="compose-icons">
                                 <div class="file-input-wrapper">
-                                    <label for="postImage" class="icon-btn" title="이미지 추가">
+                                    <label for="postImage" class="icon-btn" title="이미지 추가 (최대 10장)">
                                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E" alt="이미지">
                                     </label>
-                                    <input type="file" id="postImage" accept="image/*">
+                                    <input type="file" id="postImage" accept="image/*" multiple>
                                 </div>
                                 <div class="password-input-wrapper" style="display: inline-block; width: auto;">
                                     <button type="button" class="icon-btn" onclick="togglePasswordInput()" title="비밀글 설정">
@@ -681,6 +810,7 @@
                             </div>
                             <button type="submit" class="post-btn">掲示する</button>
                         </div>
+                        <div id="imagePreviewContainer" class="image-preview-container"></div>
                         <input type="password" id="postPassword" placeholder="비밀번호 (선택사항)" style="display: none; margin-top: 8px; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
                     </form>
                 </div>
@@ -728,381 +858,10 @@
                             <input type="text" id="profileName" placeholder="名前を入力してください。" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
                         </div>
                         <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">ユーザーID</label>
+                            <input type="text" id="profileUserId" placeholder="@username" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
                             <label style="display: block; margin-bottom: 8px; font-weight: 600;">紹介</label>
                             <textarea id="profileBio" placeholder="自己紹介を入力してください。" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
-                        </div>
-                        <button type="submit" class="post-btn">記録する</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="passwordModal" class="password-modal">
-        <div class="password-modal-content">
-            <h3>パスワードがあります。</h3>
-            <input type="password" id="modalPassword" placeholder="パスワードを入力してください">
-            <div class="modal-actions">
-                <button onclick="checkPassword()" class="post-btn">確認</button>
-                <button onclick="closePasswordModal()" class="cancel-btn">キャンセル</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
-        <div style="text-align: center; max-width: 400px; padding: 40px;">
-            <h1 style="font-size: 2em; margin-bottom: 10px;">AFURICOTTO</h1>
-            <p style="color: #536471; margin-bottom: 30px;">pass word</p>
-            <input type="password" id="sitePassword" placeholder="비밀번호" style="width: 100%; padding: 15px; border: 1px solid #e1e8ed; border-radius: 8px; font-size: 1.1em; margin-bottom: 15px;">
-            <button onclick="checkSitePassword()" style="width: 100%; padding: 15px; background: #333333; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer;">입장하기</button>
-            <p id="loginError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 틀렸습니다</p>
-        </div>
-    </div>
-
-    <script>
-        const SITE_PASSWORD = "afuricotto";
-        
-        let posts = [];
-        let guestbook = [];
-        let currentPostId = null;
-        let passwordInputVisible = false;
-        let isLoggedIn = false;
-        let currentFilter = 'all';
-        let userProfile = {
-            name: '내 프로필',
-            bio: '프로필 설정하기',
-            avatar: null
-        };
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryLabels = document.querySelectorAll('label:has(input[name="category"])');
-            categoryLabels.forEach(label => {
-                const radio = label.querySelector('input[type="radio"]');
-                if (radio.checked) {
-                    label.style.borderColor = '#333333';
-                    label.style.background = '#f7f9f9';
-                }
-                
-                radio.addEventListener('change', function() {
-                    categoryLabels.forEach(l => {
-                        l.style.borderColor = '#e1e8ed';
-                        l.style.background = 'white';
-                    });
-                    if (this.checked) {
-                        label.style.borderColor = '#333333';
-                        label.style.background = '#f7f9f9';
-                    }
-                });
-            });
-        });
-        
-        function checkLogin() {
-            const savedLogin = sessionStorage.getItem('blogLoggedIn');
-            if (savedLogin === 'true') {
-                isLoggedIn = true;
-                document.getElementById('loginScreen').style.display = 'none';
-            } else {
-                document.getElementById('loginScreen').style.display = 'flex';
-            }
-        }
-        
-        function checkSitePassword() {
-            const input = document.getElementById('sitePassword').value;
-            const error = document.getElementById('loginError');
-            
-            if (input === SITE_PASSWORD) {
-                isLoggedIn = true;
-                sessionStorage.setItem('blogLoggedIn', 'true');
-                document.getElementById('loginScreen').style.display = 'none';
-                error.style.display = 'none';
-            } else {
-                error.style.display = 'block';
-                document.getElementById('sitePassword').value = '';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('sitePassword');
-            if (passwordInput) {
-                passwordInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        checkSitePassword();
-                    }
-                });
-            }
-        });
-        
-        function togglePasswordInput() {
-            const passwordInput = document.getElementById('postPassword');
-            passwordInputVisible = !passwordInputVisible;
-            passwordInput.style.display = passwordInputVisible ? 'block' : 'none';
-        }
-        
-        function loadData() {
-            const savedPosts = localStorage.getItem('blogPosts');
-            const savedGuestbook = localStorage.getItem('blogGuestbook');
-            const savedProfile = localStorage.getItem('blogProfile');
-            
-            if (savedPosts) posts = JSON.parse(savedPosts);
-            if (savedGuestbook) guestbook = JSON.parse(savedGuestbook);
-            if (savedProfile) {
-                userProfile = JSON.parse(savedProfile);
-                updateProfileDisplay();
-            }
-            
-            renderPosts();
-            renderGuestbook();
-        }
-        
-        function saveData() {
-            localStorage.setItem('blogPosts', JSON.stringify(posts));
-            localStorage.setItem('blogGuestbook', JSON.stringify(guestbook));
-            localStorage.setItem('blogProfile', JSON.stringify(userProfile));
-        }
-        
-        function updateProfileDisplay() {
-            document.getElementById('sidebarName').textContent = userProfile.name;
-            document.getElementById('sidebarBio').textContent = userProfile.bio;
-            
-            const sidebarAvatar = document.getElementById('sidebarAvatar');
-            if (userProfile.avatar) {
-                sidebarAvatar.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-            } else {
-                sidebarAvatar.textContent = '👤';
-            }
-            
-            document.getElementById('profileName').value = userProfile.name;
-            document.getElementById('profileBio').value = userProfile.bio;
-            
-            const profilePreview = document.getElementById('profileAvatarPreview');
-            if (userProfile.avatar) {
-                profilePreview.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-            } else {
-                profilePreview.textContent = '👤';
-            }
-        }
-        
-        function showSection(sectionName) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(sectionName).classList.add('active');
-            event.target.closest('.nav-item').classList.add('active');
-        }
-        
-        document.getElementById('writeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-            const password = document.getElementById('postPassword').value;
-            const imageFile = document.getElementById('postImage').files[0];
-            const category = document.querySelector('input[name="category"]:checked').value;
-            
-            const post = {
-                id: Date.now(),
-                title: title,
-                content: content,
-                password: password,
-                category: category,
-                date: new Date().toLocaleString('ko-KR'),
-                image: null
-            };
-            
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    post.image = e.target.result;
-                    posts.unshift(post);
-                    saveData();
-                    renderPosts();
-                    resetForm();
-                    showSection('posts');
-                    alert('掲示されました!');
-                };
-                reader.readAsDataURL(imageFile);
-            } else {
-                posts.unshift(post);
-                saveData();
-                renderPosts();
-                resetForm();
-                showSection('posts');
-                alert('掲示されました!');
-            }
-        });
-        
-        function resetForm() {
-            document.getElementById('writeForm').reset();
-            document.getElementById('postPassword').style.display = 'none';
-            passwordInputVisible = false;
-            const artRadio = document.querySelector('input[name="category"][value="art"]');
-            if (artRadio) artRadio.checked = true;
-        }
-        
-        function filterCategory(category) {
-            currentFilter = category;
-            
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            renderPosts();
-        }
-        
-        function renderPosts() {
-            const timeline = document.getElementById('timeline');
-            
-            let filteredPosts = posts;
-            if (currentFilter !== 'all') {
-                filteredPosts = posts.filter(post => post.category === currentFilter);
-            }
-            
-            if (filteredPosts.length === 0) {
-                timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃう Yes Help Me</p></div>';
-                return;
-            }
-            
-            timeline.innerHTML = filteredPosts.map(post => {
-                const categoryLabel = post.category === 'art' ? 
-                    '<span class="tweet-category category-art">絵</span>' : 
-                    post.category === 'diary' ?
-                    '<span class="tweet-category category-diary">メモ</span>' :
-                    '<span class="tweet-category category-study">勉強</span>';
-                
-                const avatarHTML = userProfile.avatar ? 
-                    `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
-                    '<div class="tweet-avatar">👤</div>';
-                
-                return `
-                <div class="tweet" onclick="viewPost(${post.id})">
-                    <div class="tweet-header">
-                        ${avatarHTML}
-                        <div class="tweet-author-info">
-                            <span class="tweet-author">${userProfile.name}</span>
-                            ${categoryLabel}
-                            ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
-                            <span class="tweet-date">· ${post.date}</span>
-                        </div>
-                    </div>
-                    <div class="tweet-title">${post.title}</div>
-                    ${!post.password ? `
-                        <div class="tweet-content">${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
-                        ${post.image ? `<img src="${post.image}" class="tweet-image" alt="${post.title}">` : ''}
-                    ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
-                </div>
-            `}).join('');
-        }
-        
-        function viewPost(postId) {
-            const post = posts.find(p => p.id === postId);
-            if (!post) return;
-            
-            if (post.password) {
-                currentPostId = postId;
-                document.getElementById('passwordModal').classList.add('active');
-            } else {
-                showPostDetail(post);
-            }
-        }
-        
-        function checkPassword() {
-            const inputPassword = document.getElementById('modalPassword').value;
-            const post = posts.find(p => p.id === currentPostId);
-            
-            if (post && post.password === inputPassword) {
-                closePasswordModal();
-                showPostDetail(post);
-            } else {
-                alert('パスワードが間違っています。');
-            }
-        }
-        
-        function closePasswordModal() {
-            document.getElementById('passwordModal').classList.remove('active');
-            document.getElementById('modalPassword').value = '';
-            currentPostId = null;
-        }
-        
-        function showPostDetail(post) {
-            const detailDiv = document.getElementById('postDetail');
-            detailDiv.innerHTML = `
-                <div class="detail-title">${post.title}</div>
-                <div class="detail-date">${post.date}</div>
-                ${post.image ? `<img src="${post.image}" class="detail-image" alt="${post.title}">` : ''}
-                <div class="detail-content">${post.content}</div>
-            `;
-            
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('detail').classList.add('active');
-        }
-        
-        document.getElementById('guestbookForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('guestName').value;
-            const message = document.getElementById('guestMessage').value;
-            
-            guestbook.unshift({
-                id: Date.now(),
-                name: name,
-                message: message,
-                date: new Date().toLocaleString('ko-KR')
-            });
-            
-            saveData();
-            renderGuestbook();
-            this.reset();
-            alert('観名録が登録されました!');
-        });
-        
-        function renderGuestbook() {
-            const guestbookList = document.getElementById('guestbookList');
-            
-            if (guestbook.length === 0) {
-                guestbookList.innerHTML = '<div class="empty-state"><p>いらっしゃいませ!</p></div>';
-                return;
-            }
-            
-            guestbookList.innerHTML = guestbook.map(entry => `
-                <div class="guestbook-item">
-                    <div class="guestbook-header">
-                        <span class="guestbook-name">${entry.name}</span>
-                        <span class="guestbook-date">· ${entry.date}</span>
-                    </div>
-                    <div class="guestbook-message">${entry.message}</div>
-                </div>
-            `).join('');
-        }
-        
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            userProfile.name = document.getElementById('profileName').value;
-            userProfile.bio = document.getElementById('profileBio').value;
-            
-            saveData();
-            updateProfileDisplay();
-            renderPosts();
-            alert('プロフィールが保存されました!');
-            showSection('posts');
-        });
-        
-        document.getElementById('profileImage').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    userProfile.avatar = e.target.result;
-                    const preview = document.getElementById('profileAvatarPreview');
-                    preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        checkLogin();
-        loadData();
-    </script>
-</body>
-</html>
+                        
