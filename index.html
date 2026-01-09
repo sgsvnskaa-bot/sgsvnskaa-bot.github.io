@@ -1137,9 +1137,6 @@
                 '<span class="tweet-category category-diary">メモ</span>' :
                 '<span class="tweet-category category-study">勉強</span>';
             
-            const avatarHTML = userProfile.avatar ? 
-                `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
-                '<div class="tweet-avatar">👤</div>';
             
             let imagesHTML = '';
             if (!post.password && post.images && post.images.length > 0) {
