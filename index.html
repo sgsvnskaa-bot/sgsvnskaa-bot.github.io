@@ -5,21 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>나의 개인 블로그</title>
     <style>
-        /* ========== 색상 변경 가이드 ==========
-        아래 색상 코드를 원하는 색으로 바꾸시면 됩니다:
-        
-        배경색: #ffffff (흰색)
-        사이드바 배경: #f7f7f7 (연한 회색)
-        테두리: #e1e8ed (연한 회색)
-        메인 텍스트: #0f1419 (거의 검정)
-        부제목: #536471 (회색)
-        포인트 색상: #333333 (강조용)
-        호버 배경: #f7f9f9 (마우스 올렸을 때)
-        
-        색상 코드는 hex 코드로 검색하시면 쉽게 찾을 수 있어요!
-        예: #1da1f2 (트위터 블루), #ff6b6b (빨강), #4ecdc4 (청록)
-        ====================================== */
-        
         * {
             margin: 0;
             padding: 0;
@@ -40,7 +25,6 @@
             min-height: 100vh;
         }
         
-        /* 왼쪽 사이드바 */
         .sidebar {
             width: 260px;
             padding: 20px;
@@ -145,7 +129,6 @@
             font-size: 1.3em;
         }
         
-        /* 커스텀 아이콘 이미지 스타일 */
         .nav-icon img,
         .icon-btn img {
             width: 24px;
@@ -153,7 +136,6 @@
             object-fit: contain;
         }
         
-        /* 메인 컨텐츠 영역 */
         .main-content {
             flex: 1;
             max-width: 600px;
@@ -184,7 +166,6 @@
             display: block;
         }
         
-        /* 글쓰기 영역 (트위터 작성창 스타일) */
         .compose-tweet {
             padding: 16px 20px;
             border-bottom: 1px solid #e1e8ed;
@@ -265,7 +246,6 @@
             cursor: not-allowed;
         }
         
-        /* 타임라인 피드 */
         .timeline {
             display: flex;
             flex-direction: column;
@@ -388,7 +368,6 @@
             border: 1px solid #e1e8ed;
         }
         
-        /* 글 상세보기 */
         .post-detail {
             padding: 20px;
         }
@@ -441,7 +420,6 @@
             border: 1px solid #e1e8ed;
         }
         
-        /* 방명록 */
         .guestbook-compose {
             padding: 20px;
             border-bottom: 1px solid #e1e8ed;
@@ -493,7 +471,6 @@
             line-height: 1.5;
         }
         
-        /* 비밀번호 모달 */
         .password-modal {
             position: fixed;
             top: 0;
@@ -569,7 +546,6 @@
             color: #536471;
         }
         
-        /* 파일 업로드 커스텀 */
         .file-input-wrapper {
             position: relative;
             display: inline-block;
@@ -589,12 +565,36 @@
             width: 100%;
         }
         
-     
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #e1e8ed;
+            }
+            
+            .nav-menu {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .nav-item {
+                white-space: nowrap;
+            }
+            
+            .main-content {
+                border-right: none;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="layout">
-        <!-- 왼쪽 사이드바 -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <h1>AFURICOTTO</h1>
@@ -629,9 +629,7 @@
             </nav>
         </div>
         
-        <!-- 메인 컨텐츠 -->
         <div class="main-content">
-            <!-- 글 목록 섹션 -->
             <div id="posts" class="section active">
                 <div class="main-header">
                     <h2>タイムライン</h2>
@@ -645,10 +643,9 @@
                 <div id="timeline" class="timeline"></div>
             </div>
             
-            <!-- 글쓰기 섹션 -->
             <div id="write" class="section">
                 <div class="main-header">
-                    <h2>書き下ろし</h2>
+                    <h2>書き下し</h2>
                 </div>
                 <div class="compose-tweet">
                     <form id="writeForm" class="compose-form">
@@ -667,7 +664,7 @@
                                 <span class="category-label">勉強</span>
                             </label>
                         </div>
-                        <textarea id="postContent" placeholder="何が起こっているんですか？" required></textarea>
+                        <textarea id="postContent" placeholder="何が起こっているんですか?" required></textarea>
                         <div class="compose-actions">
                             <div class="compose-icons">
                                 <div class="file-input-wrapper">
@@ -689,7 +686,6 @@
                 </div>
             </div>
             
-            <!-- 글 상세보기 섹션 -->
             <div id="detail" class="section">
                 <div class="detail-header">
                     <button class="back-btn" onclick="showSection('posts')">←</button>
@@ -698,7 +694,6 @@
                 <div id="postDetail" class="post-detail"></div>
             </div>
             
-            <!-- 방명록 섹션 -->
             <div id="guestbook" class="section">
                 <div class="main-header">
                     <h2>名簿</h2>
@@ -706,14 +701,13 @@
                 <div class="guestbook-compose">
                     <form id="guestbookForm" class="guestbook-form">
                         <input type="text" id="guestName" placeholder="名前" required>
-                        <textarea id="guestMessage" placeholder="言いたいことがあるの？" required></textarea>
+                        <textarea id="guestMessage" placeholder="言いたいことがあるの?" required></textarea>
                         <button type="submit" class="post-btn">残す。</button>
                     </form>
                 </div>
                 <div id="guestbookList"></div>
             </div>
             
-            <!-- 프로필 설정 섹션 -->
             <div id="profile" class="section">
                 <div class="main-header">
                     <h2>プロフィール設定</h2>
@@ -742,86 +736,8 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 음악 플레이어 - 우측 사이드바 -->
-        <div class="music-sidebar">
-            <div class="music-player-container">
-                <!-- 앨범 커버 -->
-                <div class="album-cover-wrapper">
-                    <div class="cd-disk" id="cdDisk">
-                        <div class="cd-center"></div>
-                        <div class="cd-hole"></div>
-                        <img src="" id="albumCover" class="album-cover-img" alt="Album Cover">
-                    </div>
-                    <label for="coverUpload" class="cover-upload-btn" title="앨범 커버 변경">
-                        📸
-                    </label>
-                    <input type="file" id="coverUpload" accept="image/*" style="display: none;">
-                </div>
-                
-                <!-- 곡 정보 -->
-                <div class="track-info">
-                    <div class="track-title" id="trackTitle">음악을 선택해주세요</div>
-                    <div class="track-artist" id="trackArtist">-</div>
-                </div>
-                
-                <!-- 진행 바 -->
-                <div class="progress-container">
-                    <span class="time-current" id="currentTime">0:00</span>
-                    <input type="range" class="progress-bar" id="progressBar" min="0" max="100" value="0">
-                    <span class="time-total" id="totalTime">0:00</span>
-                </div>
-                
-                <!-- 컨트롤 버튼 -->
-                <!-- 이미지 교체 방법: 각 img src="..." 부분을 원하는 이미지 경로로 변경하세요 -->
-                <div class="player-controls">
-                    <button class="control-btn" id="shuffleBtn" onclick="toggleShuffle()" title="셔플">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpolyline points='16 3 21 3 21 8'/%3E%3Cline x1='4' y1='20' x2='21' y2='3'/%3E%3Cpolyline points='21 16 21 21 16 21'/%3E%3Cline x1='15' y1='15' x2='21' y2='21'/%3E%3Cline x1='4' y1='4' x2='9' y2='9'/%3E%3C/svg%3E" alt="셔플" class="control-icon">
-                    </button>
-                    <button class="control-btn" onclick="previousTrack()" title="이전 곡">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' stroke='white' stroke-width='2'%3E%3Cpolygon points='19 20 9 12 19 4 19 20'/%3E%3Cline x1='5' y1='19' x2='5' y2='5'/%3E%3C/svg%3E" alt="이전 곡" class="control-icon">
-                    </button>
-                    <button class="control-btn play-btn" id="playBtn" onclick="togglePlayPause()" title="재생/일시정지">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E" alt="재생" class="control-icon" id="playIcon">
-                    </button>
-                    <button class="control-btn" onclick="nextTrack()" title="다음 곡">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' stroke='white' stroke-width='2'%3E%3Cpolygon points='5 4 15 12 5 20 5 4'/%3E%3Cline x1='19' y1='5' x2='19' y2='19'/%3E%3C/svg%3E" alt="다음 곡" class="control-icon">
-                    </button>
-                    <button class="control-btn" id="likeBtn" onclick="toggleLike()" title="좋아요">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E" alt="좋아요" class="control-icon" id="likeIcon">
-                    </button>
-                </div>
-                
-                <!-- 볼륨 컨트롤 -->
-                <div class="volume-container">
-                    <span class="volume-icon">🔊</span>
-                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
-                </div>
-                
-                <!-- 재생 목록 -->
-                <div class="playlist-header">
-                    <h3>재생 목록</h3>
-                    <button class="add-track-btn" onclick="togglePlaylistForm()">+ 곡 추가</button>
-                </div>
-                
-                <!-- 곡 추가 폼 -->
-                <div class="playlist-form" id="playlistForm" style="display: none;">
-                    <input type="text" id="newTrackTitle" placeholder="곡 제목" class="playlist-input">
-                    <input type="text" id="newTrackArtist" placeholder="아티스트" class="playlist-input">
-                    <input type="file" id="newTrackFile" accept="audio/*" class="playlist-input">
-                    <div style="display: flex; gap: 8px;">
-                        <button onclick="addTrack()" class="add-btn">추가</button>
-                        <button onclick="togglePlaylistForm()" class="cancel-btn">취소</button>
-                    </div>
-                </div>
-                
-                <!-- 재생 목록 리스트 -->
-                <div class="playlist" id="playlist"></div>
-            </div>
-        </div>
     </div>
     
-    <!-- 비밀번호 입력 모달 -->
     <div id="passwordModal" class="password-modal">
         <div class="password-modal-content">
             <h3>パスワードがあります。</h3>
@@ -832,11 +748,7 @@
             </div>
         </div>
     </div>
-    
-    <!-- 오디오 엘리먼트 -->
-    <audio id="bgMusic"></audio>
 
-    <!-- 로그인 화면 -->
     <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
         <div style="text-align: center; max-width: 400px; padding: 40px;">
             <h1 style="font-size: 2em; margin-bottom: 10px;">AFURICOTTO</h1>
@@ -856,260 +768,12 @@
         let passwordInputVisible = false;
         let isLoggedIn = false;
         let currentFilter = 'all';
-        let bgMusic = null;
-        let isPlaying = false;
         let userProfile = {
             name: '내 프로필',
             bio: '프로필 설정하기',
             avatar: null
         };
         
-        // 음악 플레이어 변수
-        let playlist = [];
-        let currentTrackIndex = 0;
-        let isLiked = false;
-        let isShuffle = false;
-        let albumCover = null;
-        
-        // 음악 플레이어 초기화
-        function initMusic() {
-            bgMusic = document.getElementById('bgMusic');
-            bgMusic.volume = 0.5;
-            
-            const savedPlaylist = localStorage.getItem('musicPlaylist');
-            const savedCover = localStorage.getItem('albumCover');
-            
-            if (savedPlaylist) {
-                playlist = JSON.parse(savedPlaylist);
-                renderPlaylist();
-            }
-            
-            if (savedCover) {
-                albumCover = savedCover;
-                document.getElementById('albumCover').src = savedCover;
-            }
-            
-            bgMusic.addEventListener('timeupdate', updateProgress);
-            bgMusic.addEventListener('ended', nextTrack);
-            
-            document.getElementById('progressBar').addEventListener('input', seekTrack);
-            document.getElementById('volumeSlider').addEventListener('input', changeVolume);
-        }
-        
-        function togglePlayPause() {
-            if (playlist.length === 0) {
-                alert('재생할 곡이 없습니다. 곡을 추가해주세요!');
-                return;
-            }
-            
-            const playIcon = document.getElementById('playIcon');
-            
-            if (isPlaying) {
-                bgMusic.pause();
-                playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E";
-                playIcon.alt = "재생";
-                document.getElementById('cdDisk').classList.remove('playing');
-                isPlaying = false;
-            } else {
-                if (!bgMusic.src || bgMusic.src === window.location.href) {
-                    loadTrack(0);
-                }
-                bgMusic.play();
-                playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='6' y='4' width='4' height='16'/%3E%3Crect x='14' y='4' width='4' height='16'/%3E%3C/svg%3E";
-                playIcon.alt = "일시정지";
-                document.getElementById('cdDisk').classList.add('playing');
-                isPlaying = true;
-            }
-        }
-        
-        function loadTrack(index) {
-            if (index < 0 || index >= playlist.length) return;
-            
-            currentTrackIndex = index;
-            const track = playlist[index];
-            
-            bgMusic.src = track.file;
-            document.getElementById('trackTitle').textContent = track.title;
-            document.getElementById('trackArtist').textContent = track.artist;
-            
-            renderPlaylist();
-        }
-        
-        function previousTrack() {
-            if (playlist.length === 0) return;
-            
-            let newIndex = currentTrackIndex - 1;
-            if (newIndex < 0) newIndex = playlist.length - 1;
-            
-            loadTrack(newIndex);
-            if (isPlaying) bgMusic.play();
-        }
-        
-        function nextTrack() {
-            if (playlist.length === 0) return;
-            
-            let newIndex;
-            if (isShuffle) {
-                newIndex = Math.floor(Math.random() * playlist.length);
-            } else {
-                newIndex = (currentTrackIndex + 1) % playlist.length;
-            }
-            
-            loadTrack(newIndex);
-            if (isPlaying) bgMusic.play();
-        }
-        
-        function updateProgress() {
-            if (bgMusic.duration) {
-                const progress = (bgMusic.currentTime / bgMusic.duration) * 100;
-                document.getElementById('progressBar').value = progress;
-                
-                document.getElementById('currentTime').textContent = formatTime(bgMusic.currentTime);
-                document.getElementById('totalTime').textContent = formatTime(bgMusic.duration);
-            }
-        }
-        
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-        
-        function seekTrack(e) {
-            const seekTime = (e.target.value / 100) * bgMusic.duration;
-            bgMusic.currentTime = seekTime;
-        }
-        
-        function changeVolume(e) {
-            bgMusic.volume = e.target.value / 100;
-        }
-        
-        function toggleShuffle() {
-            isShuffle = !isShuffle;
-            document.getElementById('shuffleBtn').classList.toggle('active');
-        }
-        
-        function toggleLike() {
-            isLiked = !isLiked;
-            const likeIcon = document.getElementById('likeIcon');
-            
-            if (isLiked) {
-                likeIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b6b' stroke='%23ff6b6b' stroke-width='2'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E";
-            } else {
-                likeIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E";
-            }
-        }
-        
-        function togglePlaylistForm() {
-            const form = document.getElementById('playlistForm');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
-        
-        function addTrack() {
-            const title = document.getElementById('newTrackTitle').value;
-            const artist = document.getElementById('newTrackArtist').value;
-            const file = document.getElementById('newTrackFile').files[0];
-            
-            if (!title || !artist || !file) {
-                alert('모든 정보를 입력해주세요!');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                playlist.push({
-                    id: Date.now(),
-                    title: title,
-                    artist: artist,
-                    file: e.target.result
-                });
-                
-                localStorage.setItem('musicPlaylist', JSON.stringify(playlist));
-                renderPlaylist();
-                
-                document.getElementById('newTrackTitle').value = '';
-                document.getElementById('newTrackArtist').value = '';
-                document.getElementById('newTrackFile').value = '';
-                togglePlaylistForm();
-                
-                alert('곡이 추가되었습니다!');
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        function renderPlaylist() {
-            const playlistDiv = document.getElementById('playlist');
-            
-            if (playlist.length === 0) {
-                playlistDiv.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">재생목록이 비어있습니다</div>';
-                return;
-            }
-            
-            playlistDiv.innerHTML = playlist.map((track, index) => `
-                <div class="playlist-item ${index === currentTrackIndex ? 'active' : ''}" onclick="playTrackAt(${index})">
-                    <div class="playlist-item-info">
-                        <div class="playlist-item-title">${track.title}</div>
-                        <div class="playlist-item-artist">${track.artist}</div>
-                    </div>
-                    <button class="playlist-item-delete" onclick="event.stopPropagation(); deleteTrack(${index})">×</button>
-                </div>
-            `).join('');
-        }
-        
-        function playTrackAt(index) {
-            const playIcon = document.getElementById('playIcon');
-            
-            loadTrack(index);
-            bgMusic.play();
-            playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='6' y='4' width='4' height='16'/%3E%3Crect x='14' y='4' width='4' height='16'/%3E%3C/svg%3E";
-            playIcon.alt = "일시정지";
-            document.getElementById('cdDisk').classList.add('playing');
-            isPlaying = true;
-        }
-        
-        function deleteTrack(index) {
-            if (confirm('이 곡을 삭제하시겠습니까?')) {
-                const playIcon = document.getElementById('playIcon');
-                
-                playlist.splice(index, 1);
-                localStorage.setItem('musicPlaylist', JSON.stringify(playlist));
-                
-                if (index === currentTrackIndex) {
-                    bgMusic.pause();
-                    isPlaying = false;
-                    playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E";
-                    playIcon.alt = "재생";
-                    document.getElementById('cdDisk').classList.remove('playing');
-                    
-                    if (playlist.length > 0) {
-                        loadTrack(0);
-                    } else {
-                        document.getElementById('trackTitle').textContent = '음악을 선택해주세요';
-                        document.getElementById('trackArtist').textContent = '-';
-                    }
-                }
-                
-                renderPlaylist();
-            }
-        }
-        
-        // 앨범 커버 업로드
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('coverUpload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        albumCover = e.target.result;
-                        document.getElementById('albumCover').src = albumCover;
-                        localStorage.setItem('albumCover', albumCover);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-        
-        // 카테고리 라벨 스타일 변경
         document.addEventListener('DOMContentLoaded', function() {
             const categoryLabels = document.querySelectorAll('label:has(input[name="category"])');
             categoryLabels.forEach(label => {
@@ -1137,7 +801,6 @@
             if (savedLogin === 'true') {
                 isLoggedIn = true;
                 document.getElementById('loginScreen').style.display = 'none';
-                initMusic();
             } else {
                 document.getElementById('loginScreen').style.display = 'flex';
             }
@@ -1152,7 +815,6 @@
                 sessionStorage.setItem('blogLoggedIn', 'true');
                 document.getElementById('loginScreen').style.display = 'none';
                 error.style.display = 'none';
-                initMusic();
             } else {
                 error.style.display = 'block';
                 document.getElementById('sitePassword').value = '';
@@ -1297,7 +959,7 @@
             }
             
             if (filteredPosts.length === 0) {
-                timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃうわ Yes Help Me</p></div>';
+                timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃう Yes Help Me</p></div>';
                 return;
             }
             
@@ -1391,7 +1053,7 @@
             saveData();
             renderGuestbook();
             this.reset();
-            alert('芳名録が登録されました!');
+            alert('観名録が登録されました!');
         });
         
         function renderGuestbook() {
@@ -1422,7 +1084,7 @@
             saveData();
             updateProfileDisplay();
             renderPosts();
-            alert('プロフィールが保存されました！');
+            alert('プロフィールが保存されました!');
             showSection('posts');
         });
         
@@ -1444,4 +1106,3 @@
     </script>
 </body>
 </html>
-                
