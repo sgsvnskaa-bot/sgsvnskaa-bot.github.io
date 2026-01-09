@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 개인 블로그</title>
+    <style>
+        /* ========== 색상 변경 가이드 ==========
+        아래 색상 코드를 원하는 색으로 바꾸시면 됩니다:
+        
+        배경색: #ffffff (흰색)
+        사이드바 배경: #f7f7f7 (연한 회색)
+        테두리: #e1e8ed (연한 회색)
+        메인 텍스트: #0f1419 (거의 검정)
+        부제목: #536471 (회색)
+        포인트 색상: #333333 (강조용)
+        호버 배경: #f7f9f9 (마우스 올렸을 때)
+        
+        색상 코드는 hex 코드로 검색하시면 쉽게 찾을 수 있어요!
+        예: #1da1f2 (트위터 블루), #ff6b6b (빨강), #4ecdc4 (청록)
+        ====================================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background-color: #ffffff;
+            color: #0f1419;
+            line-height: 1.5;
+        }
+        
+        .layout {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        
+        /* 왼쪽 사이드바 */
+        .sidebar {
+            width: 260px;
+            padding: 20px;
+            border-right: 1px solid #e1e8ed;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background: #f7f7f7;
+        }
+        
+        .sidebar-header {
+            padding: 12px 16px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header h1 {
+            font-size: 1.3em;
+            color: #0f1419;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-header p {
+            font-size: 0.9em;
+            color: #536471;
+        }
+        
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.2s;
+            background: none;
+            border: none;
+            font-size: 1.1em;
+            color: #0f1419;
+            font-weight: 500;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .nav-item:hover {
+            background: #e8e8e8;
+        }
+        
+        .nav-item.active {
+            font-weight: 700;
+        }
+        
+        .nav-icon {
+            margin-right: 16px;
+            font-size: 1.3em;
+        }
+        
+        /* 커스텀 아이콘 이미지 스타일 */
+        .nav-icon img,
+        .icon-btn img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        
+        /* 메인 컨텐츠 영역 */
+        .main-content {
+            flex: 1;
+            max-width: 600px;
+            border-right: 1px solid #e1e8ed;
+            min-height: 100vh;
+        }
+        
+        .main-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e1e8ed;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+        }
+        
+        .main-header h2 {
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* 글쓰기 영역 (트위터 작성창 스타일) */
+        .compose-tweet {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .compose-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .compose-form input[type="text"],
+        .compose-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: none;
+        }
+        
+        .compose-form textarea {
+            min-height: 120px;
+            font-size: 1.1em;
+        }
+        
+        .compose-form input[type="text"]:focus,
+        .compose-form textarea:focus {
+            outline: none;
+            border-color: #536471;
+        }
+        
+        .compose-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 8px;
+        }
+        
+        .compose-icons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #536471;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .icon-btn:hover {
+            background: #f7f9f9;
+        }
+        
+        .post-btn {
+            background: #333333;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .post-btn:hover {
+            background: #1a1a1a;
+        }
+        
+        .post-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* 타임라인 피드 */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tweet {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e1e8ed;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .tweet:hover {
+            background: #f7f9f9;
+        }
+        
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .tweet-author {
+            font-weight: 700;
+            color: #0f1419;
+        }
+        
+        .tweet-lock {
+            color: #536471;
+        }
+        
+        .tweet-date {
+            color: #536471;
+            font-size: 0.9em;
+        }
+        
+        .tweet-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 6px;
+        }
+        
+        .tweet-content {
+            color: #0f1419;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+        
+        .tweet-image {
+            width: 100%;
+            border-radius: 16px;
+            margin-top: 12px;
+            border: 1px solid #e1e8ed;
+        }
+        
+        /* 글 상세보기 */
+        .post-detail {
+            padding: 20px;
+        }
+        
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #f7f9f9;
+        }
+        
+        .detail-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .detail-date {
+            color: #536471;
+            margin-bottom: 20px;
+        }
+        
+        .detail-content {
+            font-size: 1.1em;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        
+        .detail-image {
+            width: 100%;
+            border-radius: 16px;
+            margin: 20px 0;
+            border: 1px solid #e1e8ed;
+        }
+        
+        /* 방명록 */
+        .guestbook-compose {
+            padding: 20px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .guestbook-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .guestbook-form input,
+        .guestbook-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+        
+        .guestbook-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .guestbook-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .guestbook-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .guestbook-name {
+            font-weight: 700;
+        }
+        
+        .guestbook-date {
+            color: #536471;
+            font-size: 0.9em;
+        }
+        
+        .guestbook-message {
+            line-height: 1.5;
+        }
+        
+        /* 비밀번호 모달 */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .password-modal.active {
+            display: flex;
+        }
+        
+        .password-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .password-modal-content h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        
+        .password-modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 16px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .modal-actions .post-btn {
+            background: #333333;
+            color: white;
+        }
+        
+        .modal-actions .cancel-btn {
+            background: #e1e8ed;
+            color: #0f1419;
+        }
+        
+        .modal-actions .cancel-btn:hover {
+            background: #d4dce2;
+        }
+        
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: #536471;
+        }
+        
+        /* 파일 업로드 커스텀 */
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+        
+        .password-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .password-input-wrapper input {
+            width: 100%;
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #e1e8ed;
+            }
+            
+            .nav-menu {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .nav-item {
+                white-space: nowrap;
+            }
+            
+            .main-content {
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- 왼쪽 사이드바 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>나의 블로그</h1>
+                <p>그림과 일상을 기록하는 공간</p>
+            </div>
+            <nav class="nav-menu">
+                <!-- 아이콘 변경 방법:
+                     1. 직접 그린 이미지 파일을 준비 (PNG, SVG 등)
+                     2. 이미지를 온라인에 업로드하거나 같은 폴더에 저장
+                     3. 아래 src="..." 부분을 이미지 경로로 변경
+                     
+                     예시:
+                     - 같은 폴더: src="home-icon.png"
+                     - 온라인: src="https://example.com/home-icon.png"
+                -->
+                <button class="nav-item active" onclick="showSection('posts')">
+                    <span class="nav-icon">
+                        <!-- 타임라인 아이콘 - 원하는 이미지로 교체하세요 -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3C/svg%3E" alt="홈">
+                    </span>
+                    <span>타임라인</span>
+                </button>
+                <button class="nav-item" onclick="showSection('write')">
+                    <span class="nav-icon">
+                        <!-- 글쓰기 아이콘 - 원하는 이미지로 교체하세요 -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M12 20h9'/%3E%3Cpath d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'/%3E%3C/svg%3E" alt="글쓰기">
+                    </span>
+                    <span>글쓰기</span>
+                </button>
+                <button class="nav-item" onclick="showSection('guestbook')">
+                    <span class="nav-icon">
+                        <!-- 방명록 아이콘 - 원하는 이미지로 교체하세요 -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E" alt="방명록">
+                    </span>
+                    <span>방명록</span>
+                </button>
+            </nav>
+        </div>
+        
+        <!-- 메인 컨텐츠 -->
+        <div class="main-content">
+            <!-- 글 목록 섹션 -->
+            <div id="posts" class="section active">
+                <div class="main-header">
+                    <h2>타임라인</h2>
+                </div>
+                <div id="timeline" class="timeline"></div>
+            </div>
+            
+            <!-- 글쓰기 섹션 -->
+            <div id="write" class="section">
+                <div class="main-header">
+                    <h2>새 글 쓰기</h2>
+                </div>
+                <div class="compose-tweet">
+                    <form id="writeForm" class="compose-form">
+                        <input type="text" id="postTitle" placeholder="제목을 입력하세요" required>
+                        <textarea id="postContent" placeholder="무슨 일이 일어나고 있나요?" required></textarea>
+                        <div class="compose-actions">
+                            <div class="compose-icons">
+                                <div class="file-input-wrapper">
+                                    <label for="postImage" class="icon-btn" title="이미지 추가">
+                                        <!-- 이미지 추가 아이콘 - 원하는 이미지로 교체하세요 -->
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E" alt="이미지">
+                                    </label>
+                                    <input type="file" id="postImage" accept="image/*">
+                                </div>
+                                <div class="password-input-wrapper" style="display: inline-block; width: auto;">
+                                    <button type="button" class="icon-btn" onclick="togglePasswordInput()" title="비밀글 설정">
+                                        <!-- 비밀글 설정 아이콘 - 원하는 이미지로 교체하세요 -->
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="비밀글">
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="post-btn">게시하기</button>
+                        </div>
+                        <input type="password" id="postPassword" placeholder="비밀번호 (선택사항)" style="display: none; margin-top: 8px; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                    </form>
+                </div>
+            </div>
+            
+            <!-- 글 상세보기 섹션 -->
+            <div id="detail" class="section">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="showSection('posts')">←</button>
+                    <h2>게시물</h2>
+                </div>
+                <div id="postDetail" class="post-detail"></div>
+            </div>
+            
+            <!-- 방명록 섹션 -->
+            <div id="guestbook" class="section">
+                <div class="main-header">
+                    <h2>방명록</h2>
+                </div>
+                <div class="guestbook-compose">
+                    <form id="guestbookForm" class="guestbook-form">
+                        <input type="text" id="guestName" placeholder="이름" required>
+                        <textarea id="guestMessage" placeholder="메시지를 남겨주세요" required></textarea>
+                        <button type="submit" class="post-btn">남기기</button>
+                    </form>
+                </div>
+                <div id="guestbookList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 비밀번호 입력 모달 -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-modal-content">
+            <h3>🔒 비밀글입니다</h3>
+            <input type="password" id="modalPassword" placeholder="비밀번호를 입력하세요">
+            <div class="modal-actions">
+                <button onclick="checkPassword()" class="post-btn">확인</button>
+                <button onclick="closePasswordModal()" class="cancel-btn">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let posts = [];
+        let guestbook = [];
+        let currentPostId = null;
+        let passwordInputVisible = false;
+        
+        // 비밀번호 입력 토글
+        function togglePasswordInput() {
+            const passwordInput = document.getElementById('postPassword');
+            passwordInputVisible = !passwordInputVisible;
+            passwordInput.style.display = passwordInputVisible ? 'block' : 'none';
+        }
+        
+        // 로컬 스토리지에서 데이터 불러오기
+        function loadData() {
+            const savedPosts = localStorage.getItem('blogPosts');
+            const savedGuestbook = localStorage.getItem('blogGuestbook');
+            
+            if (savedPosts) posts = JSON.parse(savedPosts);
+            if (savedGuestbook) guestbook = JSON.parse(savedGuestbook);
+            
+            renderPosts();
+            renderGuestbook();
+        }
+        
+        // 데이터 저장
+        function saveData() {
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+            localStorage.setItem('blogGuestbook', JSON.stringify(guestbook));
+        }
+        
+        // 섹션 전환
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
+        }
+        
+        // 글 등록
+        document.getElementById('writeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const password = document.getElementById('postPassword').value;
+            const imageFile = document.getElementById('postImage').files[0];
+            
+            const post = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                password: password,
+                date: new Date().toLocaleString('ko-KR'),
+                image: null
+            };
+            
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    post.image = e.target.result;
+                    posts.unshift(post);
+                    saveData();
+                    renderPosts();
+                    resetForm();
+                    showSection('posts');
+                    alert('글이 게시되었습니다!');
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                posts.unshift(post);
+                saveData();
+                renderPosts();
+                resetForm();
+                showSection('posts');
+                alert('글이 게시되었습니다!');
+            }
+        });
+        
+        function resetForm() {
+            document.getElementById('writeForm').reset();
+            document.getElementById('postPassword').style.display = 'none';
+            passwordInputVisible = false;
+        }
+        
+        // 글 목록 렌더링
+        function renderPosts() {
+            const timeline = document.getElementById('timeline');
+            
+            if (posts.length === 0) {
+                timeline.innerHTML = '<div class="empty-state"><p>아직 작성된 글이 없습니다.<br>첫 글을 작성해보세요!</p></div>';
+                return;
+            }
+            
+            timeline.innerHTML = posts.map(post => `
+                <div class="tweet" onclick="viewPost(${post.id})">
+                    <div class="tweet-header">
+                        <span class="tweet-author">나</span>
+                        ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
+                        <span class="tweet-date">· ${post.date}</span>
+                    </div>
+                    <div class="tweet-title">${post.title}</div>
+                    ${!post.password ? `
+                        <div class="tweet-content">${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
+                        ${post.image ? `<img src="${post.image}" class="tweet-image" alt="${post.title}">` : ''}
+                    ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
+                </div>
+            `).join('');
+        }
+        
+        // 글 보기
+        function viewPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            if (post.password) {
+                currentPostId = postId;
+                document.getElementById('passwordModal').classList.add('active');
+            } else {
+                showPostDetail(post);
+            }
+        }
+        
+        // 비밀번호 확인
+        function checkPassword() {
+            const inputPassword = document.getElementById('modalPassword').value;
+            const post = posts.find(p => p.id === currentPostId);
+            
+            if (post && post.password === inputPassword) {
+                closePasswordModal();
+                showPostDetail(post);
+            } else {
+                alert('비밀번호가 일치하지 않습니다.');
+            }
+        }
+        
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('modalPassword').value = '';
+            currentPostId = null;
+        }
+        
+        // 글 상세보기
+        function showPostDetail(post) {
+            const detailDiv = document.getElementById('postDetail');
+            detailDiv.innerHTML = `
+                <div class="detail-title">${post.title}</div>
+                <div class="detail-date">${post.date}</div>
+                ${post.image ? `<img src="${post.image}" class="detail-image" alt="${post.title}">` : ''}
+                <div class="detail-content">${post.content}</div>
+            `;
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('detail').classList.add('active');
+        }
+        
+        // 방명록 등록
+        document.getElementById('guestbookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('guestName').value;
+            const message = document.getElementById('guestMessage').value;
+            
+            guestbook.unshift({
+                id: Date.now(),
+                name: name,
+                message: message,
+                date: new Date().toLocaleString('ko-KR')
+            });
+            
+            saveData();
+            renderGuestbook();
+            this.reset();
+            alert('방명록이 등록되었습니다!');
+        });
+        
+        // 방명록 렌더링
+        function renderGuestbook() {
+            const guestbookList = document.getElementById('guestbookList');
+            
+            if (guestbook.length === 0) {
+                guestbookList.innerHTML = '<div class="empty-state"><p>첫 방명록을 남겨주세요!</p></div>';
+                return;
+            }
+            
+            guestbookList.innerHTML = guestbook.map(entry => `
+                <div class="guestbook-item">
+                    <div class="guestbook-header">
+                        <span class="guestbook-name">${entry.name}</span>
+                        <span class="guestbook-date">· ${entry.date}</span>
+                    </div>
+                    <div class="guestbook-message">${entry.message}</div>
+                </div>
+            `).join('');
+        }
+        
+        // 페이지 로드시 데이터 불러오기
+        loadData();
+    </script>
+</body>
+</html>
