@@ -623,8 +623,8 @@
         <!-- 왼쪽 사이드바 -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <h1>나의 블로그</h1>
-                <p>그림과 일상을 기록하는 공간</p>
+                <h1>AFURICOTTO</h1>
+                <p>ナイフであなたに求愛し、傷つけて愛を得ました。</p>
             </div>
             <div class="profile-section" onclick="showSection('profile')">
                 <div class="profile-avatar" id="sidebarAvatar">👤</div>
@@ -672,12 +672,13 @@
             <!-- 글 목록 섹션 -->
             <div id="posts" class="section active">
                 <div class="main-header">
-                    <h2>타임라인</h2>
+                    <h2>タイムライン</h2>
                 </div>
                 <div class="category-filter">
                     <button class="filter-btn active" onclick="filterCategory('all')">전체</button>
-                    <button class="filter-btn" onclick="filterCategory('art')">🎨 그림</button>
-                    <button class="filter-btn" onclick="filterCategory('diary')">📔 일기</button>
+                    <button class="filter-btn" onclick="filterCategory('art')">絵</button>
+                    <button class="filter-btn" onclick="filterCategory('diary')">メモ</button>
+                    <button class="filter-btn" onclick="filterCategory('study')">勉強</button>
                 </div>
                 <div id="timeline" class="timeline"></div>
             </div>
@@ -685,22 +686,27 @@
             <!-- 글쓰기 섹션 -->
             <div id="write" class="section">
                 <div class="main-header">
-                    <h2>새 글 쓰기</h2>
+                    <h2>書き下ろし</h2>
                 </div>
                 <div class="compose-tweet">
                     <form id="writeForm" class="compose-form">
-                        <input type="text" id="postTitle" placeholder="제목을 입력하세요" required>
+                        <input type="text" id="postTitle" placeholder="タイトルを入力してください。" required>
                         <div style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
                                 <input type="radio" name="category" value="art" checked style="display: none;">
-                                <span class="category-label">🎨 그림</span>
+                                <span class="category-label">新</span>
                             </label>
                             <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
                                 <input type="radio" name="category" value="diary" style="display: none;">
-                                <span class="category-label">📔 일기</span>
+                                <span class="category-label">メモ</span>
                             </label>
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="study" checked style="display: none;">
+                                <span class="category-label">勉強</span>
+                            </label>
+
                         </div>
-                        <textarea id="postContent" placeholder="무슨 일이 일어나고 있나요?" required></textarea>
+                        <textarea id="postContent" placeholder="何が起こっているんですか？" required></textarea>
                         <div class="compose-actions">
                             <div class="compose-icons">
                                 <div class="file-input-wrapper">
@@ -717,7 +723,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <button type="submit" class="post-btn">게시하기</button>
+                            <button type="submit" class="post-btn">掲示する</button>
                         </div>
                         <input type="password" id="postPassword" placeholder="비밀번호 (선택사항)" style="display: none; margin-top: 8px; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
                     </form>
@@ -736,13 +742,13 @@
             <!-- 방명록 섹션 -->
             <div id="guestbook" class="section">
                 <div class="main-header">
-                    <h2>방명록</h2>
+                    <h2>名簿</h2>
                 </div>
                 <div class="guestbook-compose">
                     <form id="guestbookForm" class="guestbook-form">
-                        <input type="text" id="guestName" placeholder="이름" required>
-                        <textarea id="guestMessage" placeholder="메시지를 남겨주세요" required></textarea>
-                        <button type="submit" class="post-btn">남기기</button>
+                        <input type="text" id="guestName" placeholder="名前" required>
+                        <textarea id="guestMessage" placeholder="言いたいことがあるの？" required></textarea>
+                        <button type="submit" class="post-btn">残す。</button>
                     </form>
                 </div>
                 <div id="guestbookList"></div>
@@ -751,7 +757,7 @@
             <!-- 프로필 설정 섹션 -->
             <div id="profile" class="section">
                 <div class="main-header">
-                    <h2>프로필 설정</h2>
+                    <h2>プロフィール設定</h2>
                 </div>
                 <div class="compose-tweet">
                     <form id="profileForm" class="compose-form">
@@ -760,19 +766,19 @@
                                 👤
                             </div>
                             <label for="profileImage" style="display: inline-block; padding: 8px 16px; background: #f7f9f9; border: 1px solid #e1e8ed; border-radius: 20px; cursor: pointer; font-size: 0.9em;">
-                                프로필 사진 변경
+                                プロフィール写真変更
                             </label>
                             <input type="file" id="profileImage" accept="image/*" style="display: none;">
                         </div>
                         <div class="form-group">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">이름</label>
-                            <input type="text" id="profileName" placeholder="이름을 입력하세요" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">名前</label>
+                            <input type="text" id="profileName" placeholder="名前を入力してください。" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
                         </div>
                         <div class="form-group">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">소개</label>
-                            <textarea id="profileBio" placeholder="자기소개를 입력하세요" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">紹介</label>
+                            <textarea id="profileBio" placeholder="自己紹介を入力してください。" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
                         </div>
-                        <button type="submit" class="post-btn">저장하기</button>
+                        <button type="submit" class="post-btn">記録する</button>
                     </form>
                 </div>
             </div>
@@ -782,11 +788,11 @@
     <!-- 비밀번호 입력 모달 -->
     <div id="passwordModal" class="password-modal">
         <div class="password-modal-content">
-            <h3>🔒 비밀글입니다</h3>
-            <input type="password" id="modalPassword" placeholder="비밀번호를 입력하세요">
+            <h3>パスワードがあります。</h3>
+            <input type="password" id="modalPassword" placeholder="パスワードを入力してください">
             <div class="modal-actions">
-                <button onclick="checkPassword()" class="post-btn">확인</button>
-                <button onclick="closePasswordModal()" class="cancel-btn">취소</button>
+                <button onclick="checkPassword()" class="post-btn">確認</button>
+                <button onclick="closePasswordModal()" class="cancel-btn">キャンセル</button>
             </div>
         </div>
     </div>
@@ -818,16 +824,12 @@
     <!-- 로그인 화면 -->
     <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
         <div style="text-align: center; max-width: 400px; padding: 40px;">
-            <h1 style="font-size: 2em; margin-bottom: 10px;">🔒 나의 블로그</h1>
-            <p style="color: #536471; margin-bottom: 30px;">비밀번호를 입력하세요</p>
+            <h1 style="font-size: 2em; margin-bottom: 10px;">AFURICOTTO</h1>
+            <p style="color: #536471; margin-bottom: 30px;">pass word</p>
             <input type="password" id="sitePassword" placeholder="비밀번호" style="width: 100%; padding: 15px; border: 1px solid #e1e8ed; border-radius: 8px; font-size: 1.1em; margin-bottom: 15px;">
             <button onclick="checkSitePassword()" style="width: 100%; padding: 15px; background: #333333; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer;">입장하기</button>
             <p id="loginError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 틀렸습니다</p>
             <div style="margin-top: 30px; padding: 20px; background: #f7f9f9; border-radius: 8px; text-align: left;">
-                <p style="font-size: 0.9em; color: #536471; margin-bottom: 10px;">💡 비밀번호 변경 방법:</p>
-                <p style="font-size: 0.85em; color: #536471; line-height: 1.6;">
-                    코드에서 <strong>SITE_PASSWORD</strong>를 찾아서<br>
-                    원하는 비밀번호로 변경하세요
                 </p>
             </div>
         </div>
@@ -836,7 +838,7 @@
     <script>
         // ========== 비밀번호 설정 ==========
         // 아래 비밀번호를 원하는 것으로 변경하세요!
-        const SITE_PASSWORD = "mypassword123";
+        const SITE_PASSWORD = "afuricotto";
         // ====================================
         
         let posts = [];
@@ -1041,7 +1043,7 @@
                     renderPosts();
                     resetForm();
                     showSection('posts');
-                    alert('글이 게시되었습니다!');
+                    alert('掲示されました!');
                 };
                 reader.readAsDataURL(imageFile);
             } else {
@@ -1050,7 +1052,7 @@
                 renderPosts();
                 resetForm();
                 showSection('posts');
-                alert('글이 게시되었습니다!');
+                alert('掲示されました!');
             }
         });
         
@@ -1093,8 +1095,10 @@
             
             timeline.innerHTML = filteredPosts.map(post => {
                 const categoryLabel = post.category === 'art' ? 
-                    '<span class="tweet-category category-art">🎨 그림</span>' : 
-                    '<span class="tweet-category category-diary">📔 일기</span>';
+                    '<span class="tweet-category category-art">絵</span>' : 
+                    '<span class="tweet-category category-diary">メモ</span>';
+                    '<span class="tweet-category category-study">勉強</span>';
+
                 
                 const avatarHTML = userProfile.avatar ? 
                     `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
@@ -1142,7 +1146,7 @@
                 closePasswordModal();
                 showPostDetail(post);
             } else {
-                alert('비밀번호가 일치하지 않습니다.');
+                alert('パスワードが間違っています。');
             }
         }
         
@@ -1183,7 +1187,7 @@
             saveData();
             renderGuestbook();
             this.reset();
-            alert('방명록이 등록되었습니다!');
+            alert('芳名録が登録されました!');
         });
         
         // 방명록 렌더링
@@ -1191,7 +1195,7 @@
             const guestbookList = document.getElementById('guestbookList');
             
             if (guestbook.length === 0) {
-                guestbookList.innerHTML = '<div class="empty-state"><p>첫 방명록을 남겨주세요!</p></div>';
+                guestbookList.innerHTML = '<div class="empty-state"><p>いらっしゃいませ!</p></div>';
                 return;
             }
             
@@ -1216,7 +1220,7 @@
             saveData();
             updateProfileDisplay();
             renderPosts(); // 글 목록도 업데이트
-            alert('프로필이 저장되었습니다!');
+            alert('プロフィールが保存されました！');
             showSection('posts');
         });
         
