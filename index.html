@@ -1118,61 +1118,6 @@
     }
     
     function renderPosts() {
-        const timeline = document.getElementById('timeline');
-        
-        let filteredPosts = posts;
-        if (currentFilter !== 'all') {
-            filteredPosts = posts.filter(post => post.category === currentFilter);
-        }
-        
-        if (filteredPosts.length === 0) {
-            timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃう Yes Help Me</p></div>';
-            return;
-        }
-        
-        timeline.innerHTML = filteredPosts.map(post => {
-            const categoryLabel = post.category === 'art' ? 
-                '<span class="tweet-category category-art">絵</span>' : 
-                post.category === 'diary' ?
-                '<span class="tweet-category category-diary">メモ</span>' :
-                '<span class="tweet-category category-study">勉強</span>';
-            
-            
-            let imagesHTML = '';
-            if (!post.password && post.images && post.images.length > 0) {
-                const imageClass = post.images.length === 1 ? 'single' : post.images.length === 2 ? 'double' : 'multiple';
-                const displayImages = post.images.slice(0, 4);
-                imagesHTML = `
-                    <div class="tweet-images ${imageClass}">
-                        ${displayImages.map(img => `<img src="${img}" class="tweet-image" alt="Post image">`).join('')}
-                    </div>
-                `;
-            }
-            
-            return `
-            <div class="tweet">
-                <div class="tweet-avatar">${userProfile.avatar ? `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : '👤'}</div>
-                <div class="tweet-body">
-                    <div class="tweet-header">
-                        <div class="tweet-author-info">
-                            <span class="tweet-author">${userProfile.name}</span>
-                            <span class="tweet-user-id">${userProfile.userId}</span>
-                            ${categoryLabel}
-                            ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
-                            <span class="tweet-date">· ${post.date}</span>
-                        </div>
-                    </div>
-                    <div class="tweet-title" onclick="viewPost(${post.id})">${post.title}</div>
-                    ${!post.password ? `
-                        <div class="tweet-content">${post.content.length > 150 ? post.content.substring(0, 150) + '...' : post.content}</div>
-                        ${imagesHTML}
-                    ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
-                    <div class="tweet-actions">
-                        <button class="delete-btn" onclick="deletePost(${post.id}, event)">削除</button>
-                    </div>
-                </div>
-            </div>
-`
     
     function deletePost(postId, event) {
         event.stopPropagation();
