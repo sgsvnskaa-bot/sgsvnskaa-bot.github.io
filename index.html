@@ -35,7 +35,7 @@
         
         .layout {
             display: flex;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             min-height: 100vh;
         }
@@ -589,433 +589,7 @@
             width: 100%;
         }
         
-        /* 음악 플레이어 사이드바 */
-        .music-sidebar {
-            width: 320px;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
-            color: white;
-            padding: 20px;
-            overflow-y: auto;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-        }
-        
-        .music-player-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        /* CD 앨범 커버 */
-        .album-cover-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1;
-            margin: 0 auto 20px;
-        }
-        
-        .cd-disk {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            position: relative;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6),
-                        inset 0 0 20px rgba(255,255,255,0.1);
-            animation: rotate 20s linear infinite paused;
-            overflow: hidden;
-        }
-        
-        .cd-disk.playing {
-            animation-play-state: running;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .album-cover-img {
-            width: 60%;
-            height: 60%;
-            border-radius: 50%;
-            object-fit: cover;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 3px solid #000;
-        }
-        
-        .cd-center {
-            position: absolute;
-            width: 30%;
-            height: 30%;
-            background: radial-gradient(circle, #4a4a4a 0%, #2a2a2a 100%);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            z-index: 2;
-        }
-        
-        .cd-hole {
-            position: absolute;
-            width: 15%;
-            height: 15%;
-            background: #000;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
-            z-index: 3;
-        }
-        
-        .cover-upload-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-        
-        .cover-upload-btn:hover {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        /* 곡 정보 */
-        .track-info {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        
-        .track-title {
-            font-size: 1.1em;
-            font-weight: 700;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .track-artist {
-            font-size: 0.9em;
-            color: #aaa;
-        }
-        
-        /* 진행 바 */
-        .progress-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .time-current,
-        .time-total {
-            font-size: 0.85em;
-            color: #aaa;
-            min-width: 40px;
-        }
-        
-        .progress-bar {
-            flex: 1;
-            height: 6px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: #333;
-            border-radius: 3px;
-            outline: none;
-            cursor: pointer;
-        }
-        
-        .progress-bar::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .progress-bar::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-        
-        .progress-bar::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-            border: none;
-        }
-        
-        /* 컨트롤 버튼 */
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .control-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-        
-        .control-icon {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-        }
-        
-        .play-btn .control-icon {
-            width: 28px;
-            height: 28px;
-        }
-        
-        .control-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.05);
-        }
-        
-        .play-btn {
-            width: 55px;
-            height: 55px;
-            background: white;
-            font-size: 1.4em;
-        }
-        
-        .play-btn:hover {
-            background: #f0f0f0;
-            transform: scale(1.1);
-        }
-        
-        .control-btn.active {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        /* 볼륨 컨트롤 */
-        .volume-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 15px;
-        }
-        
-        .volume-icon {
-            font-size: 1.1em;
-        }
-        
-        .volume-slider {
-            flex: 1;
-            height: 6px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: #333;
-            border-radius: 3px;
-            outline: none;
-            cursor: pointer;
-        }
-        
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        .volume-slider::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-            border: none;
-        }
-        
-        /* 재생 목록 */
-        .playlist-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .playlist-header h3 {
-            font-size: 1.1em;
-            margin: 0;
-        }
-        
-        .add-track-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s;
-        }
-        
-        .add-track-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .playlist-form {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-        
-        .playlist-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            color: white;
-            font-size: 0.95em;
-        }
-        
-        .playlist-input::placeholder {
-            color: #888;
-        }
-        
-        .playlist-input:focus {
-            outline: none;
-            border-color: rgba(255,255,255,0.4);
-        }
-        
-        .add-btn,
-        .cancel-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .add-btn {
-            background: white;
-            color: #000;
-        }
-        
-        .add-btn:hover {
-            background: #f0f0f0;
-        }
-        
-        .cancel-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
-        
-        .cancel-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .playlist {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .playlist-item {
-            background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .playlist-item:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .playlist-item.active {
-            background: rgba(255,255,255,0.15);
-            border-left: 3px solid white;
-        }
-        
-        .playlist-item-info {
-            flex: 1;
-        }
-        
-        .playlist-item-title {
-            font-weight: 600;
-            font-size: 0.95em;
-            margin-bottom: 3px;
-        }
-        
-        .playlist-item-artist {
-            font-size: 0.85em;
-            color: #aaa;
-        }
-        
-        .playlist-item-delete {
-            background: rgba(255,0,0,0.2);
-            border: none;
-            color: #ff6b6b;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
-        }
-        
-        .playlist-item-delete:hover {
-            background: rgba(255,0,0,0.3);
-        }
-        
         /* 반응형 */
-        @media (max-width: 1200px) {
-            .music-sidebar {
-                display: none;
-            }
-        }
-        
         @media (max-width: 768px) {
             .layout {
                 flex-direction: column;
@@ -1057,3 +631,647 @@
                 <div class="profile-info">
                     <div class="profile-name" id="sidebarName">내 프로필</div>
                     <div class="profile-bio" id="sidebarBio">프로필 설정하기</div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <!-- 아이콘 변경 방법:
+                     1. 직접 그린 이미지 파일을 준비 (PNG, SVG 등)
+                     2. 이미지를 온라인에 업로드하거나 같은 폴더에 저장
+                     3. 아래 src="..." 부분을 이미지 경로로 변경
+                     
+                     예시:
+                     - 같은 폴더: src="home-icon.png"
+                     - 온라인: src="https://example.com/home-icon.png"
+                -->
+                <button class="nav-item active" onclick="showSection('posts')">
+                    <span class="nav-icon">
+                        <!-- 타임라인 아이콘 - 원하는 이미지로 교체하세요 -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3C/svg%3E" alt="홈">
+                    </span>
+                    <span>タイムライン</span>
+                </button>
+                <button class="nav-item" onclick="showSection('write')">
+                    <span class="nav-icon">
+                        <!-- 글쓰기 아이콘 - 원하는 이미지로 교체하세요 -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M12 20h9'/%3E%3Cpath d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'/%3E%3C/svg%3E" alt="글쓰기">
+                    </span>
+                    <span>作成</span>
+                </button>
+                <button class="nav-item" onclick="showSection('guestbook')">
+                    <span class="nav-icon">
+                        <!-- 방명록 아이콘 - 원하는 이미지로 교체하세요 -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E" alt="방명록">
+                    </span>
+                    <span>名簿</span>
+                </button>
+            </nav>
+        </div>
+        
+        <!-- 메인 컨텐츠 -->
+        <div class="main-content">
+            <!-- 글 목록 섹션 -->
+            <div id="posts" class="section active">
+                <div class="main-header">
+                    <h2>タイムライン</h2>
+                </div>
+                <div class="category-filter">
+                    <button class="filter-btn active" onclick="filterCategory('all')">ホーム</button>
+                    <button class="filter-btn" onclick="filterCategory('art')">絵</button>
+                    <button class="filter-btn" onclick="filterCategory('diary')">メモ</button>
+                    <button class="filter-btn" onclick="filterCategory('study')">勉強</button>
+                </div>
+                <div id="timeline" class="timeline"></div>
+            </div>
+            
+            <!-- 글쓰기 섹션 -->
+            <div id="write" class="section">
+                <div class="main-header">
+                    <h2>書き下ろし</h2>
+                </div>
+                <div class="compose-tweet">
+                    <form id="writeForm" class="compose-form">
+                        <input type="text" id="postTitle" placeholder="タイトルを入力してください。" required>
+                        <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="art" checked style="display: none;">
+                                <span class="category-label">新</span>
+                            </label>
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="diary" style="display: none;">
+                                <span class="category-label">メモ</span>
+                            </label>
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="study" checked style="display: none;">
+                                <span class="category-label">勉強</span>
+                            </label>
+
+                        </div>
+                        <textarea id="postContent" placeholder="何が起こっているんですか？" required></textarea>
+                        <div class="compose-actions">
+                            <div class="compose-icons">
+                                <div class="file-input-wrapper">
+                                    <label for="postImage" class="icon-btn" title="이미지 추가">
+                                        <!-- 이미지 추가 아이콘 - 원하는 이미지로 교체하세요 -->
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E" alt="이미지">
+                                    </label>
+                                    <input type="file" id="postImage" accept="image/*">
+                                </div>
+                                <div class="password-input-wrapper" style="display: inline-block; width: auto;">
+                                    <button type="button" class="icon-btn" onclick="togglePasswordInput()" title="비밀글 설정">
+                                        <!-- 비밀글 설정 아이콘 - 원하는 이미지로 교체하세요 -->
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="비밀글">
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="post-btn">掲示する</button>
+                        </div>
+                        <input type="password" id="postPassword" placeholder="비밀번호 (선택사항)" style="display: none; margin-top: 8px; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                    </form>
+                </div>
+            </div>
+            
+            <!-- 글 상세보기 섹션 -->
+            <div id="detail" class="section">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="showSection('posts')">←</button>
+                    <h2>게시물</h2>
+                </div>
+                <div id="postDetail" class="post-detail"></div>
+            </div>
+            
+            <!-- 방명록 섹션 -->
+            <div id="guestbook" class="section">
+                <div class="main-header">
+                    <h2>名簿</h2>
+                </div>
+                <div class="guestbook-compose">
+                    <form id="guestbookForm" class="guestbook-form">
+                        <input type="text" id="guestName" placeholder="名前" required>
+                        <textarea id="guestMessage" placeholder="言いたいことがあるの？" required></textarea>
+                        <button type="submit" class="post-btn">残す。</button>
+                    </form>
+                </div>
+                <div id="guestbookList"></div>
+            </div>
+            
+            <!-- 프로필 설정 섹션 -->
+            <div id="profile" class="section">
+                <div class="main-header">
+                    <h2>プロフィール設定</h2>
+                </div>
+                <div class="compose-tweet">
+                    <form id="profileForm" class="compose-form">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div id="profileAvatarPreview" style="width: 120px; height: 120px; border-radius: 50%; background: #e1e8ed; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 3em; overflow: hidden;">
+                                👤
+                            </div>
+                            <label for="profileImage" style="display: inline-block; padding: 8px 16px; background: #f7f9f9; border: 1px solid #e1e8ed; border-radius: 20px; cursor: pointer; font-size: 0.9em;">
+                                プロフィール写真変更
+                            </label>
+                            <input type="file" id="profileImage" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">名前</label>
+                            <input type="text" id="profileName" placeholder="名前を入力してください。" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">紹介</label>
+                            <textarea id="profileBio" placeholder="自己紹介を入力してください。" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="post-btn">記録する</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 비밀번호 입력 모달 -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-modal-content">
+            <h3>パスワードがあります。</h3>
+            <input type="password" id="modalPassword" placeholder="パスワードを入力してください">
+            <div class="modal-actions">
+                <button onclick="checkPassword()" class="post-btn">確認</button>
+                <button onclick="closePasswordModal()" class="cancel-btn">キャンセル</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 음악 플레이어 -->
+    <div class="music-player">
+        <button class="music-btn" id="musicToggle" onclick="toggleMusic()">▶️</button>
+        <div class="volume-control">
+            <input type="range" id="volumeSlider" min="0" max="100" value="50" oninput="changeVolume(this.value)">
+        </div>
+        <span class="music-info">🎵 BGM</span>
+    </div>
+    
+    <!-- 배경음악 오디오 -->
+    <!-- 
+        음악 파일 추가 방법:
+        1. MP3 파일을 index.html과 같은 폴더에 저장
+        2. 아래 src="music.mp3" 부분을 파일 이름으로 변경
+        
+        예시:
+        - 같은 폴더: src="my-music.mp3"
+        - 하위 폴더: src="audio/my-music.mp3"
+        - 온라인: src="https://example.com/music.mp3"
+    -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 로그인 화면 -->
+    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
+        <div style="text-align: center; max-width: 400px; padding: 40px;">
+            <h1 style="font-size: 2em; margin-bottom: 10px;">AFURICOTTO</h1>
+            <p style="color: #536471; margin-bottom: 30px;">pass word</p>
+            <input type="password" id="sitePassword" placeholder="비밀번호" style="width: 100%; padding: 15px; border: 1px solid #e1e8ed; border-radius: 8px; font-size: 1.1em; margin-bottom: 15px;">
+            <button onclick="checkSitePassword()" style="width: 100%; padding: 15px; background: #333333; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer;">입장하기</button>
+            <p id="loginError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 틀렸습니다</p>
+            <div style="margin-top: 30px; padding: 20px; background: #f7f9f9; border-radius: 8px; text-align: left;">
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 비밀번호 설정 ==========
+        // 아래 비밀번호를 원하는 것으로 변경하세요!
+        const SITE_PASSWORD = "afuricotto";
+        // ====================================
+        
+        let posts = [];
+        let guestbook = [];
+        let currentPostId = null;
+        let passwordInputVisible = false;
+        let isLoggedIn = false;
+        let currentFilter = 'all';
+        let bgMusic = null;
+        let isPlaying = false;
+        let userProfile = {
+            name: '내 프로필',
+            bio: '프로필 설정하기',
+            avatar: null
+        };
+        
+        // 음악 플레이어 초기화
+        function initMusic() {
+            bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.5; // 기본 볼륨 50%
+            
+            // 자동 재생 시도
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                document.getElementById('musicToggle').textContent = '⏸️';
+            }).catch(() => {
+                // 자동재생 실패시 (브라우저 정책)
+                console.log('자동재생이 차단되었습니다. 버튼을 클릭해주세요.');
+            });
+        }
+        
+        // 음악 재생/일시정지
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                document.getElementById('musicToggle').textContent = '▶️';
+                isPlaying = false;
+            } else {
+                bgMusic.play();
+                document.getElementById('musicToggle').textContent = '⏸️';
+                isPlaying = true;
+            }
+        }
+        
+        // 볼륨 조절
+        function changeVolume(value) {
+            bgMusic.volume = value / 100;
+        }
+        
+        // 카테고리 라벨 스타일 변경
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryLabels = document.querySelectorAll('label:has(input[name="category"])');
+            categoryLabels.forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio.checked) {
+                    label.style.borderColor = '#333333';
+                    label.style.background = '#f7f9f9';
+                }
+                
+                radio.addEventListener('change', function() {
+                    categoryLabels.forEach(l => {
+                        l.style.borderColor = '#e1e8ed';
+                        l.style.background = 'white';
+                    });
+                    if (this.checked) {
+                        label.style.borderColor = '#333333';
+                        label.style.background = '#f7f9f9';
+                    }
+                });
+            });
+        });
+        
+        // 페이지 로드시 로그인 확인
+        function checkLogin() {
+            const savedLogin = sessionStorage.getItem('blogLoggedIn');
+            if (savedLogin === 'true') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        }
+        
+        // 사이트 비밀번호 확인
+        function checkSitePassword() {
+            const input = document.getElementById('sitePassword').value;
+            const error = document.getElementById('loginError');
+            
+            if (input === SITE_PASSWORD) {
+                isLoggedIn = true;
+                sessionStorage.setItem('blogLoggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                error.style.display = 'none';
+            } else {
+                error.style.display = 'block';
+                document.getElementById('sitePassword').value = '';
+            }
+        }
+        
+        // Enter 키로 로그인
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('sitePassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkSitePassword();
+                    }
+                });
+            }
+        });
+        
+        // 비밀번호 입력 토글
+        function togglePasswordInput() {
+            const passwordInput = document.getElementById('postPassword');
+            passwordInputVisible = !passwordInputVisible;
+            passwordInput.style.display = passwordInputVisible ? 'block' : 'none';
+        }
+        
+        // 로컬 스토리지에서 데이터 불러오기
+        function loadData() {
+            const savedPosts = localStorage.getItem('blogPosts');
+            const savedGuestbook = localStorage.getItem('blogGuestbook');
+            const savedProfile = localStorage.getItem('blogProfile');
+            
+            if (savedPosts) posts = JSON.parse(savedPosts);
+            if (savedGuestbook) guestbook = JSON.parse(savedGuestbook);
+            if (savedProfile) {
+                userProfile = JSON.parse(savedProfile);
+                updateProfileDisplay();
+            }
+            
+            renderPosts();
+            renderGuestbook();
+        }
+        
+        // 데이터 저장
+        function saveData() {
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+            localStorage.setItem('blogGuestbook', JSON.stringify(guestbook));
+            localStorage.setItem('blogProfile', JSON.stringify(userProfile));
+        }
+        
+        // 프로필 표시 업데이트
+        function updateProfileDisplay() {
+            document.getElementById('sidebarName').textContent = userProfile.name;
+            document.getElementById('sidebarBio').textContent = userProfile.bio;
+            
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            if (userProfile.avatar) {
+                sidebarAvatar.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                sidebarAvatar.textContent = '👤';
+            }
+            
+            // 프로필 폼도 업데이트
+            document.getElementById('profileName').value = userProfile.name;
+            document.getElementById('profileBio').value = userProfile.bio;
+            
+            const profilePreview = document.getElementById('profileAvatarPreview');
+            if (userProfile.avatar) {
+                profilePreview.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                profilePreview.textContent = '👤';
+            }
+        }
+        
+        // 섹션 전환
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
+        }
+        
+        // 글 등록
+        document.getElementById('writeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const password = document.getElementById('postPassword').value;
+            const imageFile = document.getElementById('postImage').files[0];
+            const category = document.querySelector('input[name="category"]:checked').value;
+            
+            const post = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                password: password,
+                category: category,
+                date: new Date().toLocaleString('ko-KR'),
+                image: null
+            };
+            
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    post.image = e.target.result;
+                    posts.unshift(post);
+                    saveData();
+                    renderPosts();
+                    resetForm();
+                    showSection('posts');
+                    alert('掲示されました!');
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                posts.unshift(post);
+                saveData();
+                renderPosts();
+                resetForm();
+                showSection('posts');
+                alert('掲示されました!');
+            }
+        });
+        
+        function resetForm() {
+            document.getElementById('writeForm').reset();
+            document.getElementById('postPassword').style.display = 'none';
+            passwordInputVisible = false;
+            // 카테고리 기본값으로 리셋
+            const artRadio = document.querySelector('input[name="category"][value="art"]');
+            if (artRadio) artRadio.checked = true;
+        }
+        
+        // 카테고리 필터
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            // 버튼 활성화 상태 변경
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderPosts();
+        }
+        
+        // 글 목록 렌더링
+        function renderPosts() {
+            const timeline = document.getElementById('timeline');
+            
+            // 필터링된 글 목록
+            let filteredPosts = posts;
+            if (currentFilter !== 'all') {
+                filteredPosts = posts.filter(post => post.category === currentFilter);
+            }
+            
+            if (filteredPosts.length === 0) {
+                timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃうわ Yes Help Me</p></div>';
+                return;
+            }
+            
+            timeline.innerHTML = filteredPosts.map(post => {
+                const categoryLabel = post.category === 'art' ? 
+                    '<span class="tweet-category category-art">絵</span>' : 
+                    '<span class="tweet-category category-diary">メモ</span>';
+                    '<span class="tweet-category category-study">勉強</span>';
+
+                
+                const avatarHTML = userProfile.avatar ? 
+                    `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
+                    '<div class="tweet-avatar">👤</div>';
+                
+                return `
+                <div class="tweet" onclick="viewPost(${post.id})">
+                    <div class="tweet-header">
+                        ${avatarHTML}
+                        <div class="tweet-author-info">
+                            <span class="tweet-author">${userProfile.name}</span>
+                            ${categoryLabel}
+                            ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
+                            <span class="tweet-date">· ${post.date}</span>
+                        </div>
+                    </div>
+                    <div class="tweet-title">${post.title}</div>
+                    ${!post.password ? `
+                        <div class="tweet-content">${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
+                        ${post.image ? `<img src="${post.image}" class="tweet-image" alt="${post.title}">` : ''}
+                    ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
+                </div>
+            `}).join('');
+        }
+        
+        // 글 보기
+        function viewPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            if (post.password) {
+                currentPostId = postId;
+                document.getElementById('passwordModal').classList.add('active');
+            } else {
+                showPostDetail(post);
+            }
+        }
+        
+        // 비밀번호 확인
+        function checkPassword() {
+            const inputPassword = document.getElementById('modalPassword').value;
+            const post = posts.find(p => p.id === currentPostId);
+            
+            if (post && post.password === inputPassword) {
+                closePasswordModal();
+                showPostDetail(post);
+            } else {
+                alert('パスワードが間違っています。');
+            }
+        }
+        
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('modalPassword').value = '';
+            currentPostId = null;
+        }
+        
+        // 글 상세보기
+        function showPostDetail(post) {
+            const detailDiv = document.getElementById('postDetail');
+            detailDiv.innerHTML = `
+                <div class="detail-title">${post.title}</div>
+                <div class="detail-date">${post.date}</div>
+                ${post.image ? `<img src="${post.image}" class="detail-image" alt="${post.title}">` : ''}
+                <div class="detail-content">${post.content}</div>
+            `;
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('detail').classList.add('active');
+        }
+        
+        // 방명록 등록
+        document.getElementById('guestbookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('guestName').value;
+            const message = document.getElementById('guestMessage').value;
+            
+            guestbook.unshift({
+                id: Date.now(),
+                name: name,
+                message: message,
+                date: new Date().toLocaleString('ko-KR')
+            });
+            
+            saveData();
+            renderGuestbook();
+            this.reset();
+            alert('芳名録が登録されました!');
+        });
+        
+        // 방명록 렌더링
+        function renderGuestbook() {
+            const guestbookList = document.getElementById('guestbookList');
+            
+            if (guestbook.length === 0) {
+                guestbookList.innerHTML = '<div class="empty-state"><p>いらっしゃいませ!</p></div>';
+                return;
+            }
+            
+            guestbookList.innerHTML = guestbook.map(entry => `
+                <div class="guestbook-item">
+                    <div class="guestbook-header">
+                        <span class="guestbook-name">${entry.name}</span>
+                        <span class="guestbook-date">· ${entry.date}</span>
+                    </div>
+                    <div class="guestbook-message">${entry.message}</div>
+                </div>
+            `).join('');
+        }
+        
+        // 프로필 폼 제출
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userProfile.name = document.getElementById('profileName').value;
+            userProfile.bio = document.getElementById('profileBio').value;
+            
+            saveData();
+            updateProfileDisplay();
+            renderPosts(); // 글 목록도 업데이트
+            alert('プロフィールが保存されました！');
+            showSection('posts');
+        });
+        
+        // 프로필 이미지 변경
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatar = e.target.result;
+                    const preview = document.getElementById('profileAvatarPreview');
+                    preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // 페이지 로드시 데이터 불러오기
+        checkLogin();
+        loadData();
+        
+        // 로그인 후 음악 시작
+        const originalCheckLogin = checkLogin;
+        checkLogin = function() {
+            const savedLogin = sessionStorage.getItem('blogLoggedIn');
+            if (savedLogin === 'true') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                initMusic(); // 로그인 성공시 음악 시작
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        };
+        
+        // 비밀번호 확인시에도 음악 시작
+        const originalCheckSitePassword = checkSitePassword;
+        checkSitePassword = function() {
+            const input = document.getElementById('sitePassword').value;
+            const error = document.getElementById('loginError');
+            
+            if (input === SITE_PASSWORD) {
+                isLoggedIn = true;
+                sessionStorage.setItem('blogLoggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                error.style.display = 'none';
+                initMusic(); // 로그인 성공시 음악 시작
+            } else {
+                error.style.display = 'block';
+                document.getElementById('sitePassword').value = '';
+            }
+        };
+    </script>
+</body>
+</html>
