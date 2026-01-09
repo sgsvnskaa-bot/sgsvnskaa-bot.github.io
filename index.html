@@ -864,4 +864,449 @@
                         <div class="form-group">
                             <label style="display: block; margin-bottom: 8px; font-weight: 600;">紹介</label>
                             <textarea id="profileBio" placeholder="自己紹介を入力してください。" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
-                        
+                        </div>
+                        <button type="submit" class="post-btn">記録する</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<div id="passwordModal" class="password-modal">
+    <div class="password-modal-content">
+        <h3>パスワードがあります。</h3>
+        <input type="password" id="modalPassword" placeholder="パスワードを入力してください">
+        <div class="modal-actions">
+            <button onclick="checkPassword()" class="post-btn">確認</button>
+            <button onclick="closePasswordModal()" class="cancel-btn">キャンセル</button>
+        </div>
+    </div>
+</div>
+
+<div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
+    <div style="text-align: center; max-width: 400px; padding: 40px;">
+        <h1 style="font-size: 2em; margin-bottom: 10px;">AFURICOTTO</h1>
+        <p style="color: #536471; margin-bottom: 30px;">pass word</p>
+        <input type="password" id="sitePassword" placeholder="비밀번호" style="width: 100%; padding: 15px; border: 1px solid #e1e8ed; border-radius: 8px; font-size: 1.1em; margin-bottom: 15px;">
+        <button onclick="checkSitePassword()" style="width: 100%; padding: 15px; background: #333333; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer;">입장하기</button>
+        <p id="loginError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 틀렸습니다</p>
+    </div>
+</div>
+
+<script>
+    const SITE_PASSWORD = "afuricotto";
+    
+    let posts = [];
+    let guestbook = [];
+    let currentPostId = null;
+    let passwordInputVisible = false;
+    let isLoggedIn = false;
+    let currentFilter = 'all';
+    let selectedImages = [];
+    let userProfile = {
+        name: '내 프로필',
+        userId: '@username',
+        bio: '프로필 설정하기',
+        avatar: null
+    };
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryLabels = document.querySelectorAll('label:has(input[name="category"])');
+        categoryLabels.forEach(label => {
+            const radio = label.querySelector('input[type="radio"]');
+            if (radio.checked) {
+                label.style.borderColor = '#333333';
+                label.style.background = '#f7f9f9';
+            }
+            
+            radio.addEventListener('change', function() {
+                categoryLabels.forEach(l => {
+                    l.style.borderColor = '#e1e8ed';
+                    l.style.background = 'white';
+                });
+                if (this.checked) {
+                    label.style.borderColor = '#333333';
+                    label.style.background = '#f7f9f9';
+                }
+            });
+        });
+    });
+    
+    function checkLogin() {
+        const savedLogin = sessionStorage.getItem('blogLoggedIn');
+        if (savedLogin === 'true') {
+            isLoggedIn = true;
+            document.getElementById('loginScreen').style.display = 'none';
+        } else {
+            document.getElementById('loginScreen').style.display = 'flex';
+        }
+    }
+    
+    function checkSitePassword() {
+        const input = document.getElementById('sitePassword').value;
+        const error = document.getElementById('loginError');
+        
+        if (input === SITE_PASSWORD) {
+            isLoggedIn = true;
+            sessionStorage.setItem('blogLoggedIn', 'true');
+            document.getElementById('loginScreen').style.display = 'none';
+            error.style.display = 'none';
+        } else {
+            error.style.display = 'block';
+            document.getElementById('sitePassword').value = '';
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('sitePassword');
+        if (passwordInput) {
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkSitePassword();
+                }
+            });
+        }
+    });
+    
+    function togglePasswordInput() {
+        const passwordInput = document.getElementById('postPassword');
+        passwordInputVisible = !passwordInputVisible;
+        passwordInput.style.display = passwordInputVisible ? 'block' : 'none';
+    }
+    
+    function loadData() {
+        const savedPosts = localStorage.getItem('blogPosts');
+        const savedGuestbook = localStorage.getItem('blogGuestbook');
+        const savedProfile = localStorage.getItem('blogProfile');
+        
+        if (savedPosts) posts = JSON.parse(savedPosts);
+        if (savedGuestbook) guestbook = JSON.parse(savedGuestbook);
+        if (savedProfile) {
+            userProfile = JSON.parse(savedProfile);
+            updateProfileDisplay();
+        }
+        
+        renderPosts();
+        renderGuestbook();
+    }
+    
+    function saveData() {
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        localStorage.setItem('blogGuestbook', JSON.stringify(guestbook));
+        localStorage.setItem('blogProfile', JSON.stringify(userProfile));
+    }
+    
+    function updateProfileDisplay() {
+        document.getElementById('sidebarName').textContent = userProfile.name;
+        document.getElementById('sidebarBio').textContent = userProfile.bio;
+        
+        const sidebarAvatar = document.getElementById('sidebarAvatar');
+        if (userProfile.avatar) {
+            sidebarAvatar.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+        } else {
+            sidebarAvatar.textContent = '👤';
+        }
+        
+        document.getElementById('profileName').value = userProfile.name;
+        document.getElementById('profileUserId').value = userProfile.userId;
+        document.getElementById('profileBio').value = userProfile.bio;
+        
+        const profilePreview = document.getElementById('profileAvatarPreview');
+        if (userProfile.avatar) {
+            profilePreview.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+        } else {
+            profilePreview.textContent = '👤';
+        }
+    }
+    
+    function showSection(sectionName) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(sectionName).classList.add('active');
+        event.target.closest('.nav-item').classList.add('active');
+    }
+    
+    document.getElementById('writeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (selectedImages.length > 10) {
+            alert('画像は最大10枚まで追加できます。');
+            return;
+        }
+        
+        const title = document.getElementById('postTitle').value;
+        const content = document.getElementById('postContent').value;
+        const password = document.getElementById('postPassword').value;
+        const category = document.querySelector('input[name="category"]:checked').value;
+        
+        const post = {
+            id: Date.now(),
+            title: title,
+            content: content,
+            password: password,
+            category: category,
+            date: new Date().toLocaleString('ko-KR'),
+            images: selectedImages.slice()
+        };
+        
+        posts.unshift(post);
+        saveData();
+        renderPosts();
+        resetForm();
+        showSection('posts');
+        alert('掲示されました!');
+    });
+    
+    function resetForm() {
+        document.getElementById('writeForm').reset();
+        document.getElementById('postPassword').style.display = 'none';
+        passwordInputVisible = false;
+        selectedImages = [];
+        document.getElementById('imagePreviewContainer').innerHTML = '';
+        const artRadio = document.querySelector('input[name="category"][value="art"]');
+        if (artRadio) artRadio.checked = true;
+    }
+    
+    document.getElementById('postImage').addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        
+        if (selectedImages.length + files.length > 10) {
+            alert('画像は最大10枚まで追加できます。');
+            return;
+        }
+        
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                selectedImages.push(e.target.result);
+                updateImagePreview();
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        e.target.value = '';
+    });
+    
+    function updateImagePreview() {
+        const container = document.getElementById('imagePreviewContainer');
+        container.innerHTML = selectedImages.map((img, index) => `
+            <div class="image-preview">
+                <img src="${img}" alt="Preview ${index + 1}">
+                <button class="image-preview-remove" onclick="removeImage(${index})">×</button>
+            </div>
+        `).join('');
+    }
+    
+    function removeImage(index) {
+        selectedImages.splice(index, 1);
+        updateImagePreview();
+    }
+    
+    function filterCategory(category) {
+        currentFilter = category;
+        
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        renderPosts();
+    }
+    
+    function renderPosts() {
+        const timeline = document.getElementById('timeline');
+        
+        let filteredPosts = posts;
+        if (currentFilter !== 'all') {
+            filteredPosts = posts.filter(post => post.category === currentFilter);
+        }
+        
+        if (filteredPosts.length === 0) {
+            timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃう Yes Help Me</p></div>';
+            return;
+        }
+        
+        timeline.innerHTML = filteredPosts.map(post => {
+            const categoryLabel = post.category === 'art' ? 
+                '<span class="tweet-category category-art">絵</span>' : 
+                post.category === 'diary' ?
+                '<span class="tweet-category category-diary">メモ</span>' :
+                '<span class="tweet-category category-study">勉強</span>';
+            
+            const avatarHTML = userProfile.avatar ? 
+                `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
+                '<div class="tweet-avatar">👤</div>';
+            
+            let imagesHTML = '';
+            if (!post.password && post.images && post.images.length > 0) {
+                const imageClass = post.images.length === 1 ? 'single' : post.images.length === 2 ? 'double' : 'multiple';
+                const displayImages = post.images.slice(0, 4);
+                imagesHTML = `
+                    <div class="tweet-images ${imageClass}">
+                        ${displayImages.map(img => `<img src="${img}" class="tweet-image" alt="Post image">`).join('')}
+                    </div>
+                `;
+            }
+            
+            return `
+            <div class="tweet">
+                ${avatarHTML}
+                <div class="tweet-body">
+                    <div class="tweet-header">
+                        <div class="tweet-author-info">
+                            <span class="tweet-author">${userProfile.name}</span>
+                            <span class="tweet-user-id">${userProfile.userId}</span>
+                            ${categoryLabel}
+                            ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
+                            <span class="tweet-date">· ${post.date}</span>
+                        </div>
+                    </div>
+                    <div class="tweet-title" onclick="viewPost(${post.id})">${post.title}</div>
+                    ${!post.password ? `
+                        <div class="tweet-content">${post.content.length > 150 ? post.content.substring(0, 150) + '...' : post.content}</div>
+                        ${imagesHTML}
+                    ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
+                    <div class="tweet-actions">
+                        <button class="delete-btn" onclick="deletePost(${post.id}, event)">削除</button>
+                    </div>
+                </div>
+            </div>
+        `}).join('');
+    }
+    
+    function deletePost(postId, event) {
+        event.stopPropagation();
+        if (confirm('本当に削除しますか?')) {
+            posts = posts.filter(p => p.id !== postId);
+            saveData();
+            renderPosts();
+            alert('削除されました。');
+        }
+    }
+    
+    function viewPost(postId) {
+        const post = posts.find(p => p.id === postId);
+        if (!post) return;
+        
+        if (post.password) {
+            currentPostId = postId;
+            document.getElementById('passwordModal').classList.add('active');
+        } else {
+            showPostDetail(post);
+        }
+    }
+    
+    function checkPassword() {
+        const inputPassword = document.getElementById('modalPassword').value;
+        const post = posts.find(p => p.id === currentPostId);
+        
+        if (post && post.password === inputPassword) {
+            closePasswordModal();
+            showPostDetail(post);
+        } else {
+            alert('パスワードが間違っています。');
+        }
+    }
+    
+    function closePasswordModal() {
+        document.getElementById('passwordModal').classList.remove('active');
+        document.getElementById('modalPassword').value = '';
+        currentPostId = null;
+    }
+    
+    function showPostDetail(post) {
+        const detailDiv = document.getElementById('postDetail');
+        
+        let imagesHTML = '';
+        if (post.images && post.images.length > 0) {
+            const imageClass = post.images.length === 1 ? 'single' : post.images.length === 2 ? 'double' : 'multiple';
+            imagesHTML = `
+                <div class="detail-images ${imageClass}">
+                    ${post.images.map(img => `<img src="${img}" alt="Post image">`).join('')}
+                </div>
+            `;
+        }
+        
+        detailDiv.innerHTML = `
+            <div class="detail-title">${post.title}</div>
+            <div class="detail-date">${post.date}</div>
+            ${imagesHTML}
+            <div class="detail-content">${post.content}</div>
+        `;
+        
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById('detail').classList.add('active');
+    }
+    
+    document.getElementById('guestbookForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('guestName').value;
+        const message = document.getElementById('guestMessage').value;
+        
+        guestbook.unshift({
+            id: Date.now(),
+            name: name,
+            message: message,
+            date: new Date().toLocaleString('ko-KR')
+        });
+        
+        saveData();
+        renderGuestbook();
+        this.reset();
+        alert('観名録が登録されました!');
+    });
+    
+    function renderGuestbook() {
+        const guestbookList = document.getElementById('guestbookList');
+        
+        if (guestbook.length === 0) {
+            guestbookList.innerHTML = '<div class="empty-state"><p>いらっしゃいませ!</p></div>';
+            return;
+        }
+        
+        guestbookList.innerHTML = guestbook.map(entry => `
+            <div class="guestbook-item">
+                <div class="guestbook-header">
+                    <span class="guestbook-name">${entry.name}</span>
+                    <span class="guestbook-date">· ${entry.date}</span>
+                </div>
+                <div class="guestbook-message">${entry.message}</div>
+            </div>
+        `).join('');
+    }
+    
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        userProfile.name = document.getElementById('profileName').value;
+        userProfile.userId = document.getElementById('profileUserId').value;
+        userProfile.bio = document.getElementById('profileBio').value;
+        
+        saveData();
+        updateProfileDisplay();
+        renderPosts();
+        alert('プロフィールが保存されました!');
+        showSection('posts');
+    });
+    
+    document.getElementById('profileImage').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                userProfile.avatar = e.target.result;
+                const preview = document.getElementById('profileAvatarPreview');
+                preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    checkLogin();
+    loadData();
+</script>
+</body>
+</html>
+```
