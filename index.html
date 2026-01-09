@@ -592,19 +592,27 @@
         /* 음악 플레이어 사이드바 */
         .music-sidebar {
             width: 320px;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+            background: #F7F7F7;
             color: white;
             padding: 20px;
             overflow-y: auto;
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .music-player-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
+            background: #484848;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 280px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         
         /* CD 앨범 커버 */
@@ -612,17 +620,15 @@
             position: relative;
             width: 100%;
             aspect-ratio: 1;
-            margin: 0 auto 5px;
+            margin: 0 auto 20px;
         }
         
         .cd-disk {
-            width: 150%;
-            height: 150%;
-            border-radius: 10%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
             background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
             position: relative;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6),
-                        inset 0 0 20px rgba(255,255,255,0.1);
             animation: rotate 20s linear infinite paused;
             overflow: hidden;
         }
@@ -645,7 +651,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border: 3px solid #000;
         }
         
         .cd-center {
@@ -657,7 +662,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
             z-index: 2;
         }
         
@@ -665,12 +669,11 @@
             position: absolute;
             width: 15%;
             height: 15%;
-            background: #F7F7F7;
+            background: #000;
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
             z-index: 3;
         }
         
@@ -680,7 +683,7 @@
             right: 10px;
             width: 40px;
             height: 40px;
-            background: rgba(19,19,19,0.9);
+            background: rgba(255,255,255,0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -688,7 +691,6 @@
             cursor: pointer;
             font-size: 1.2em;
             transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         
         .cover-upload-btn:hover {
@@ -868,7 +870,7 @@
         
         /* 재생 목록 */
         .playlist-header {
-            display: flex;
+            display: none;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
@@ -895,6 +897,7 @@
         }
         
         .playlist-form {
+            display: none;
             background: rgba(255,255,255,0.05);
             padding: 15px;
             border-radius: 12px;
@@ -951,7 +954,7 @@
         }
         
         .playlist {
-            display: flex;
+            display: none;
             flex-direction: column;
             gap: 8px;
             max-height: 300px;
