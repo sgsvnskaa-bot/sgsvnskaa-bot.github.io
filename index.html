@@ -56,6 +56,49 @@
             margin-bottom: 20px;
         }
         
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .profile-section:hover {
+            background: #f7f9f9;
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e1e8ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-weight: 700;
+            color: #0f1419;
+            margin-bottom: 2px;
+        }
+        
+        .profile-bio {
+            font-size: 0.85em;
+            color: #536471;
+        }
+        
         .sidebar-header h1 {
             font-size: 1.3em;
             color: #0f1419;
@@ -246,6 +289,25 @@
             margin-bottom: 8px;
         }
         
+        .tweet-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e1e8ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        
+        .tweet-author-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        
         .tweet-author {
             font-weight: 700;
             color: #0f1419;
@@ -260,10 +322,56 @@
             font-size: 0.9em;
         }
         
+        .tweet-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .category-art {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .category-diary {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+        
         .tweet-title {
             font-weight: 700;
             font-size: 1.1em;
             margin-bottom: 6px;
+        }
+        
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #e1e8ed;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: #f7f9f9;
+        }
+        
+        .filter-btn.active {
+            background: #333333;
+            color: white;
+            border-color: #333333;
         }
         
         .tweet-content {
@@ -518,6 +626,13 @@
                 <h1>나의 블로그</h1>
                 <p>그림과 일상을 기록하는 공간</p>
             </div>
+            <div class="profile-section" onclick="showSection('profile')">
+                <div class="profile-avatar" id="sidebarAvatar">👤</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="sidebarName">내 프로필</div>
+                    <div class="profile-bio" id="sidebarBio">프로필 설정하기</div>
+                </div>
+            </div>
             <nav class="nav-menu">
                 <!-- 아이콘 변경 방법:
                      1. 직접 그린 이미지 파일을 준비 (PNG, SVG 등)
@@ -559,6 +674,11 @@
                 <div class="main-header">
                     <h2>타임라인</h2>
                 </div>
+                <div class="category-filter">
+                    <button class="filter-btn active" onclick="filterCategory('all')">전체</button>
+                    <button class="filter-btn" onclick="filterCategory('art')">🎨 그림</button>
+                    <button class="filter-btn" onclick="filterCategory('diary')">📔 일기</button>
+                </div>
                 <div id="timeline" class="timeline"></div>
             </div>
             
@@ -570,6 +690,16 @@
                 <div class="compose-tweet">
                     <form id="writeForm" class="compose-form">
                         <input type="text" id="postTitle" placeholder="제목을 입력하세요" required>
+                        <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="art" checked style="display: none;">
+                                <span class="category-label">🎨 그림</span>
+                            </label>
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="diary" style="display: none;">
+                                <span class="category-label">📔 일기</span>
+                            </label>
+                        </div>
                         <textarea id="postContent" placeholder="무슨 일이 일어나고 있나요?" required></textarea>
                         <div class="compose-actions">
                             <div class="compose-icons">
@@ -617,6 +747,35 @@
                 </div>
                 <div id="guestbookList"></div>
             </div>
+            
+            <!-- 프로필 설정 섹션 -->
+            <div id="profile" class="section">
+                <div class="main-header">
+                    <h2>프로필 설정</h2>
+                </div>
+                <div class="compose-tweet">
+                    <form id="profileForm" class="compose-form">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div id="profileAvatarPreview" style="width: 120px; height: 120px; border-radius: 50%; background: #e1e8ed; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 3em; overflow: hidden;">
+                                👤
+                            </div>
+                            <label for="profileImage" style="display: inline-block; padding: 8px 16px; background: #f7f9f9; border: 1px solid #e1e8ed; border-radius: 20px; cursor: pointer; font-size: 0.9em;">
+                                프로필 사진 변경
+                            </label>
+                            <input type="file" id="profileImage" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">이름</label>
+                            <input type="text" id="profileName" placeholder="이름을 입력하세요" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">소개</label>
+                            <textarea id="profileBio" placeholder="자기소개를 입력하세요" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="post-btn">저장하기</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -631,12 +790,163 @@
             </div>
         </div>
     </div>
+    
+    <!-- 음악 플레이어 -->
+    <div class="music-player">
+        <button class="music-btn" id="musicToggle" onclick="toggleMusic()">▶️</button>
+        <div class="volume-control">
+            <input type="range" id="volumeSlider" min="0" max="100" value="50" oninput="changeVolume(this.value)">
+        </div>
+        <span class="music-info">🎵 BGM</span>
+    </div>
+    
+    <!-- 배경음악 오디오 -->
+    <!-- 
+        음악 파일 추가 방법:
+        1. MP3 파일을 index.html과 같은 폴더에 저장
+        2. 아래 src="music.mp3" 부분을 파일 이름으로 변경
+        
+        예시:
+        - 같은 폴더: src="my-music.mp3"
+        - 하위 폴더: src="audio/my-music.mp3"
+        - 온라인: src="https://example.com/music.mp3"
+    -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 로그인 화면 -->
+    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
+        <div style="text-align: center; max-width: 400px; padding: 40px;">
+            <h1 style="font-size: 2em; margin-bottom: 10px;">🔒 나의 블로그</h1>
+            <p style="color: #536471; margin-bottom: 30px;">비밀번호를 입력하세요</p>
+            <input type="password" id="sitePassword" placeholder="비밀번호" style="width: 100%; padding: 15px; border: 1px solid #e1e8ed; border-radius: 8px; font-size: 1.1em; margin-bottom: 15px;">
+            <button onclick="checkSitePassword()" style="width: 100%; padding: 15px; background: #333333; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer;">입장하기</button>
+            <p id="loginError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 틀렸습니다</p>
+            <div style="margin-top: 30px; padding: 20px; background: #f7f9f9; border-radius: 8px; text-align: left;">
+                <p style="font-size: 0.9em; color: #536471; margin-bottom: 10px;">💡 비밀번호 변경 방법:</p>
+                <p style="font-size: 0.85em; color: #536471; line-height: 1.6;">
+                    코드에서 <strong>SITE_PASSWORD</strong>를 찾아서<br>
+                    원하는 비밀번호로 변경하세요
+                </p>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // ========== 비밀번호 설정 ==========
+        // 아래 비밀번호를 원하는 것으로 변경하세요!
+        const SITE_PASSWORD = "mypassword123";
+        // ====================================
+        
         let posts = [];
         let guestbook = [];
         let currentPostId = null;
         let passwordInputVisible = false;
+        let isLoggedIn = false;
+        let currentFilter = 'all';
+        let bgMusic = null;
+        let isPlaying = false;
+        let userProfile = {
+            name: '내 프로필',
+            bio: '프로필 설정하기',
+            avatar: null
+        };
+        
+        // 음악 플레이어 초기화
+        function initMusic() {
+            bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.5; // 기본 볼륨 50%
+            
+            // 자동 재생 시도
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                document.getElementById('musicToggle').textContent = '⏸️';
+            }).catch(() => {
+                // 자동재생 실패시 (브라우저 정책)
+                console.log('자동재생이 차단되었습니다. 버튼을 클릭해주세요.');
+            });
+        }
+        
+        // 음악 재생/일시정지
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                document.getElementById('musicToggle').textContent = '▶️';
+                isPlaying = false;
+            } else {
+                bgMusic.play();
+                document.getElementById('musicToggle').textContent = '⏸️';
+                isPlaying = true;
+            }
+        }
+        
+        // 볼륨 조절
+        function changeVolume(value) {
+            bgMusic.volume = value / 100;
+        }
+        
+        // 카테고리 라벨 스타일 변경
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryLabels = document.querySelectorAll('label:has(input[name="category"])');
+            categoryLabels.forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio.checked) {
+                    label.style.borderColor = '#333333';
+                    label.style.background = '#f7f9f9';
+                }
+                
+                radio.addEventListener('change', function() {
+                    categoryLabels.forEach(l => {
+                        l.style.borderColor = '#e1e8ed';
+                        l.style.background = 'white';
+                    });
+                    if (this.checked) {
+                        label.style.borderColor = '#333333';
+                        label.style.background = '#f7f9f9';
+                    }
+                });
+            });
+        });
+        
+        // 페이지 로드시 로그인 확인
+        function checkLogin() {
+            const savedLogin = sessionStorage.getItem('blogLoggedIn');
+            if (savedLogin === 'true') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        }
+        
+        // 사이트 비밀번호 확인
+        function checkSitePassword() {
+            const input = document.getElementById('sitePassword').value;
+            const error = document.getElementById('loginError');
+            
+            if (input === SITE_PASSWORD) {
+                isLoggedIn = true;
+                sessionStorage.setItem('blogLoggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                error.style.display = 'none';
+            } else {
+                error.style.display = 'block';
+                document.getElementById('sitePassword').value = '';
+            }
+        }
+        
+        // Enter 키로 로그인
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('sitePassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkSitePassword();
+                    }
+                });
+            }
+        });
         
         // 비밀번호 입력 토글
         function togglePasswordInput() {
@@ -649,9 +959,14 @@
         function loadData() {
             const savedPosts = localStorage.getItem('blogPosts');
             const savedGuestbook = localStorage.getItem('blogGuestbook');
+            const savedProfile = localStorage.getItem('blogProfile');
             
             if (savedPosts) posts = JSON.parse(savedPosts);
             if (savedGuestbook) guestbook = JSON.parse(savedGuestbook);
+            if (savedProfile) {
+                userProfile = JSON.parse(savedProfile);
+                updateProfileDisplay();
+            }
             
             renderPosts();
             renderGuestbook();
@@ -661,6 +976,31 @@
         function saveData() {
             localStorage.setItem('blogPosts', JSON.stringify(posts));
             localStorage.setItem('blogGuestbook', JSON.stringify(guestbook));
+            localStorage.setItem('blogProfile', JSON.stringify(userProfile));
+        }
+        
+        // 프로필 표시 업데이트
+        function updateProfileDisplay() {
+            document.getElementById('sidebarName').textContent = userProfile.name;
+            document.getElementById('sidebarBio').textContent = userProfile.bio;
+            
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            if (userProfile.avatar) {
+                sidebarAvatar.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                sidebarAvatar.textContent = '👤';
+            }
+            
+            // 프로필 폼도 업데이트
+            document.getElementById('profileName').value = userProfile.name;
+            document.getElementById('profileBio').value = userProfile.bio;
+            
+            const profilePreview = document.getElementById('profileAvatarPreview');
+            if (userProfile.avatar) {
+                profilePreview.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                profilePreview.textContent = '👤';
+            }
         }
         
         // 섹션 전환
@@ -680,12 +1020,14 @@
             const content = document.getElementById('postContent').value;
             const password = document.getElementById('postPassword').value;
             const imageFile = document.getElementById('postImage').files[0];
+            const category = document.querySelector('input[name="category"]:checked').value;
             
             const post = {
                 id: Date.now(),
                 title: title,
                 content: content,
                 password: password,
+                category: category,
                 date: new Date().toLocaleString('ko-KR'),
                 image: null
             };
@@ -716,23 +1058,58 @@
             document.getElementById('writeForm').reset();
             document.getElementById('postPassword').style.display = 'none';
             passwordInputVisible = false;
+            // 카테고리 기본값으로 리셋
+            const artRadio = document.querySelector('input[name="category"][value="art"]');
+            if (artRadio) artRadio.checked = true;
+        }
+        
+        // 카테고리 필터
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            // 버튼 활성화 상태 변경
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderPosts();
         }
         
         // 글 목록 렌더링
         function renderPosts() {
             const timeline = document.getElementById('timeline');
             
-            if (posts.length === 0) {
+            // 필터링된 글 목록
+            let filteredPosts = posts;
+            if (currentFilter !== 'all') {
+                filteredPosts = posts.filter(post => post.category === currentFilter);
+            }
+            
+            if (filteredPosts.length === 0) {
                 timeline.innerHTML = '<div class="empty-state"><p>아직 작성된 글이 없습니다.<br>첫 글을 작성해보세요!</p></div>';
                 return;
             }
             
-            timeline.innerHTML = posts.map(post => `
+            timeline.innerHTML = filteredPosts.map(post => {
+                const categoryLabel = post.category === 'art' ? 
+                    '<span class="tweet-category category-art">🎨 그림</span>' : 
+                    '<span class="tweet-category category-diary">📔 일기</span>';
+                
+                const avatarHTML = userProfile.avatar ? 
+                    `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
+                    '<div class="tweet-avatar">👤</div>';
+                
+                return `
                 <div class="tweet" onclick="viewPost(${post.id})">
                     <div class="tweet-header">
-                        <span class="tweet-author">나</span>
-                        ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
-                        <span class="tweet-date">· ${post.date}</span>
+                        ${avatarHTML}
+                        <div class="tweet-author-info">
+                            <span class="tweet-author">${userProfile.name}</span>
+                            ${categoryLabel}
+                            ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
+                            <span class="tweet-date">· ${post.date}</span>
+                        </div>
                     </div>
                     <div class="tweet-title">${post.title}</div>
                     ${!post.password ? `
@@ -740,7 +1117,7 @@
                         ${post.image ? `<img src="${post.image}" class="tweet-image" alt="${post.title}">` : ''}
                     ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
                 </div>
-            `).join('');
+            `}).join('');
         }
         
         // 글 보기
@@ -829,8 +1206,68 @@
             `).join('');
         }
         
+        // 프로필 폼 제출
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userProfile.name = document.getElementById('profileName').value;
+            userProfile.bio = document.getElementById('profileBio').value;
+            
+            saveData();
+            updateProfileDisplay();
+            renderPosts(); // 글 목록도 업데이트
+            alert('프로필이 저장되었습니다!');
+            showSection('posts');
+        });
+        
+        // 프로필 이미지 변경
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatar = e.target.result;
+                    const preview = document.getElementById('profileAvatarPreview');
+                    preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
         // 페이지 로드시 데이터 불러오기
+        checkLogin();
         loadData();
+        
+        // 로그인 후 음악 시작
+        const originalCheckLogin = checkLogin;
+        checkLogin = function() {
+            const savedLogin = sessionStorage.getItem('blogLoggedIn');
+            if (savedLogin === 'true') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                initMusic(); // 로그인 성공시 음악 시작
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        };
+        
+        // 비밀번호 확인시에도 음악 시작
+        const originalCheckSitePassword = checkSitePassword;
+        checkSitePassword = function() {
+            const input = document.getElementById('sitePassword').value;
+            const error = document.getElementById('loginError');
+            
+            if (input === SITE_PASSWORD) {
+                isLoggedIn = true;
+                sessionStorage.setItem('blogLoggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                error.style.display = 'none';
+                initMusic(); // 로그인 성공시 음악 시작
+            } else {
+                error.style.display = 'block';
+                document.getElementById('sitePassword').value = '';
+            }
+        };
     </script>
 </body>
 </html>
