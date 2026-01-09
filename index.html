@@ -1057,3 +1057,843 @@
                 <div class="profile-info">
                     <div class="profile-name" id="sidebarName">내 프로필</div>
                     <div class="profile-bio" id="sidebarBio">프로필 설정하기</div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" onclick="showSection('posts')">
+                    <span class="nav-icon">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3C/svg%3E" alt="홈">
+                    </span>
+                    <span>タイムライン</span>
+                </button>
+                <button class="nav-item" onclick="showSection('write')">
+                    <span class="nav-icon">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M12 20h9'/%3E%3Cpath d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'/%3E%3C/svg%3E" alt="글쓰기">
+                    </span>
+                    <span>作成</span>
+                </button>
+                <button class="nav-item" onclick="showSection('guestbook')">
+                    <span class="nav-icon">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E" alt="방명록">
+                    </span>
+                    <span>名簿</span>
+                </button>
+            </nav>
+        </div>
+        
+        <!-- 메인 컨텐츠 -->
+        <div class="main-content">
+            <!-- 글 목록 섹션 -->
+            <div id="posts" class="section active">
+                <div class="main-header">
+                    <h2>タイムライン</h2>
+                </div>
+                <div class="category-filter">
+                    <button class="filter-btn active" onclick="filterCategory('all')">ホーム</button>
+                    <button class="filter-btn" onclick="filterCategory('art')">絵</button>
+                    <button class="filter-btn" onclick="filterCategory('diary')">メモ</button>
+                    <button class="filter-btn" onclick="filterCategory('study')">勉強</button>
+                </div>
+                <div id="timeline" class="timeline"></div>
+            </div>
+            
+            <!-- 글쓰기 섹션 -->
+            <div id="write" class="section">
+                <div class="main-header">
+                    <h2>書き下ろし</h2>
+                </div>
+                <div class="compose-tweet">
+                    <form id="writeForm" class="compose-form">
+                        <input type="text" id="postTitle" placeholder="タイトルを入力してください。" required>
+                        <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="art" checked style="display: none;">
+                                <span class="category-label">新</span>
+                            </label>
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="diary" style="display: none;">
+                                <span class="category-label">メモ</span>
+                            </label>
+                            <label style="flex: 1; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                                <input type="radio" name="category" value="study" style="display: none;">
+                                <span class="category-label">勉強</span>
+                            </label>
+                        </div>
+                        <textarea id="postContent" placeholder="何が起こっているんですか？" required></textarea>
+                        <div class="compose-actions">
+                            <div class="compose-icons">
+                                <div class="file-input-wrapper">
+                                    <label for="postImage" class="icon-btn" title="이미지 추가">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E" alt="이미지">
+                                    </label>
+                                    <input type="file" id="postImage" accept="image/*">
+                                </div>
+                                <div class="password-input-wrapper" style="display: inline-block; width: auto;">
+                                    <button type="button" class="icon-btn" onclick="togglePasswordInput()" title="비밀글 설정">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536471' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="비밀글">
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="post-btn">掲示する</button>
+                        </div>
+                        <input type="password" id="postPassword" placeholder="비밀번호 (선택사항)" style="display: none; margin-top: 8px; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                    </form>
+                </div>
+            </div>
+            
+            <!-- 글 상세보기 섹션 -->
+            <div id="detail" class="section">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="showSection('posts')">←</button>
+                    <h2>게시물</h2>
+                </div>
+                <div id="postDetail" class="post-detail"></div>
+            </div>
+            
+            <!-- 방명록 섹션 -->
+            <div id="guestbook" class="section">
+                <div class="main-header">
+                    <h2>名簿</h2>
+                </div>
+                <div class="guestbook-compose">
+                    <form id="guestbookForm" class="guestbook-form">
+                        <input type="text" id="guestName" placeholder="名前" required>
+                        <textarea id="guestMessage" placeholder="言いたいことがあるの？" required></textarea>
+                        <button type="submit" class="post-btn">残す。</button>
+                    </form>
+                </div>
+                <div id="guestbookList"></div>
+            </div>
+            
+            <!-- 프로필 설정 섹션 -->
+            <div id="profile" class="section">
+                <div class="main-header">
+                    <h2>プロフィール設定</h2>
+                </div>
+                <div class="compose-tweet">
+                    <form id="profileForm" class="compose-form">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div id="profileAvatarPreview" style="width: 120px; height: 120px; border-radius: 50%; background: #e1e8ed; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 3em; overflow: hidden;">
+                                👤
+                            </div>
+                            <label for="profileImage" style="display: inline-block; padding: 8px 16px; background: #f7f9f9; border: 1px solid #e1e8ed; border-radius: 20px; cursor: pointer; font-size: 0.9em;">
+                                プロフィール写真変更
+                            </label>
+                            <input type="file" id="profileImage" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">名前</label>
+                            <input type="text" id="profileName" placeholder="名前を入力してください。" required style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">紹介</label>
+                            <textarea id="profileBio" placeholder="自己紹介を入力してください。" style="width: 100%; padding: 12px; border: 1px solid #e1e8ed; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="post-btn">記録する</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 음악 플레이어 - 우측 사이드바 -->
+        <div class="music-sidebar">
+            <div class="music-player-container">
+                <!-- 앨범 커버 -->
+                <div class="album-cover-wrapper">
+                    <div class="cd-disk" id="cdDisk">
+                        <div class="cd-center"></div>
+                        <div class="cd-hole"></div>
+                        <img src="" id="albumCover" class="album-cover-img" alt="Album Cover">
+                    </div>
+                    <label for="coverUpload" class="cover-upload-btn" title="앨범 커버 변경">
+                        📸
+                    </label>
+                    <input type="file" id="coverUpload" accept="image/*" style="display: none;">
+                </div>
+                
+                <!-- 곡 정보 -->
+                <div class="track-info">
+                    <div class="track-title" id="trackTitle">음악을 선택해주세요</div>
+                    <div class="track-artist" id="trackArtist">-</div>
+                </div>
+                
+                <!-- 진행 바 -->
+                <div class="progress-container">
+                    <span class="time-current" id="currentTime">0:00</span>
+                    <input type="range" class="progress-bar" id="progressBar" min="0" max="100" value="0">
+                    <span class="time-total" id="totalTime">0:00</span>
+                </div>
+                
+                <!-- 컨트롤 버튼 -->
+                <!-- 이미지 교체 방법: 각 img src="..." 부분을 원하는 이미지 경로로 변경하세요 -->
+                <div class="player-controls">
+                    <button class="control-btn" id="shuffleBtn" onclick="toggleShuffle()" title="셔플">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpolyline points='16 3 21 3 21 8'/%3E%3Cline x1='4' y1='20' x2='21' y2='3'/%3E%3Cpolyline points='21 16 21 21 16 21'/%3E%3Cline x1='15' y1='15' x2='21' y2='21'/%3E%3Cline x1='4' y1='4' x2='9' y2='9'/%3E%3C/svg%3E" alt="셔플" class="control-icon">
+                    </button>
+                    <button class="control-btn" onclick="previousTrack()" title="이전 곡">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' stroke='white' stroke-width='2'%3E%3Cpolygon points='19 20 9 12 19 4 19 20'/%3E%3Cline x1='5' y1='19' x2='5' y2='5'/%3E%3C/svg%3E" alt="이전 곡" class="control-icon">
+                    </button>
+                    <button class="control-btn play-btn" id="playBtn" onclick="togglePlayPause()" title="재생/일시정지">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E" alt="재생" class="control-icon" id="playIcon">
+                    </button>
+                    <button class="control-btn" onclick="nextTrack()" title="다음 곡">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' stroke='white' stroke-width='2'%3E%3Cpolygon points='5 4 15 12 5 20 5 4'/%3E%3Cline x1='19' y1='5' x2='19' y2='19'/%3E%3C/svg%3E" alt="다음 곡" class="control-icon">
+                    </button>
+                    <button class="control-btn" id="likeBtn" onclick="toggleLike()" title="좋아요">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E" alt="좋아요" class="control-icon" id="likeIcon">
+                    </button>
+                </div>
+                
+                <!-- 볼륨 컨트롤 -->
+                <div class="volume-container">
+                    <span class="volume-icon">🔊</span>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+                </div>
+                
+                <!-- 재생 목록 -->
+                <div class="playlist-header">
+                    <h3>재생 목록</h3>
+                    <button class="add-track-btn" onclick="togglePlaylistForm()">+ 곡 추가</button>
+                </div>
+                
+                <!-- 곡 추가 폼 -->
+                <div class="playlist-form" id="playlistForm" style="display: none;">
+                    <input type="text" id="newTrackTitle" placeholder="곡 제목" class="playlist-input">
+                    <input type="text" id="newTrackArtist" placeholder="아티스트" class="playlist-input">
+                    <input type="file" id="newTrackFile" accept="audio/*" class="playlist-input">
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="addTrack()" class="add-btn">추가</button>
+                        <button onclick="togglePlaylistForm()" class="cancel-btn">취소</button>
+                    </div>
+                </div>
+                
+                <!-- 재생 목록 리스트 -->
+                <div class="playlist" id="playlist"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 비밀번호 입력 모달 -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-modal-content">
+            <h3>パスワードがあります。</h3>
+            <input type="password" id="modalPassword" placeholder="パスワードを入力してください">
+            <div class="modal-actions">
+                <button onclick="checkPassword()" class="post-btn">確認</button>
+                <button onclick="closePasswordModal()" class="cancel-btn">キャンセル</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 오디오 엘리먼트 -->
+    <audio id="bgMusic"></audio>
+
+    <!-- 로그인 화면 -->
+    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center;">
+        <div style="text-align: center; max-width: 400px; padding: 40px;">
+            <h1 style="font-size: 2em; margin-bottom: 10px;">AFURICOTTO</h1>
+            <p style="color: #536471; margin-bottom: 30px;">pass word</p>
+            <input type="password" id="sitePassword" placeholder="비밀번호" style="width: 100%; padding: 15px; border: 1px solid #e1e8ed; border-radius: 8px; font-size: 1.1em; margin-bottom: 15px;">
+            <button onclick="checkSitePassword()" style="width: 100%; padding: 15px; background: #333333; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer;">입장하기</button>
+            <p id="loginError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 틀렸습니다</p>
+        </div>
+    </div>
+
+    <script>
+        const SITE_PASSWORD = "afuricotto";
+        
+        let posts = [];
+        let guestbook = [];
+        let currentPostId = null;
+        let passwordInputVisible = false;
+        let isLoggedIn = false;
+        let currentFilter = 'all';
+        let bgMusic = null;
+        let isPlaying = false;
+        let userProfile = {
+            name: '내 프로필',
+            bio: '프로필 설정하기',
+            avatar: null
+        };
+        
+        // 음악 플레이어 변수
+        let playlist = [];
+        let currentTrackIndex = 0;
+        let isLiked = false;
+        let isShuffle = false;
+        let albumCover = null;
+        
+        // 음악 플레이어 초기화
+        function initMusic() {
+            bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.5;
+            
+            const savedPlaylist = localStorage.getItem('musicPlaylist');
+            const savedCover = localStorage.getItem('albumCover');
+            
+            if (savedPlaylist) {
+                playlist = JSON.parse(savedPlaylist);
+                renderPlaylist();
+            }
+            
+            if (savedCover) {
+                albumCover = savedCover;
+                document.getElementById('albumCover').src = savedCover;
+            }
+            
+            bgMusic.addEventListener('timeupdate', updateProgress);
+            bgMusic.addEventListener('ended', nextTrack);
+            
+            document.getElementById('progressBar').addEventListener('input', seekTrack);
+            document.getElementById('volumeSlider').addEventListener('input', changeVolume);
+        }
+        
+        function togglePlayPause() {
+            if (playlist.length === 0) {
+                alert('재생할 곡이 없습니다. 곡을 추가해주세요!');
+                return;
+            }
+            
+            const playIcon = document.getElementById('playIcon');
+            
+            if (isPlaying) {
+                bgMusic.pause();
+                playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E";
+                playIcon.alt = "재생";
+                document.getElementById('cdDisk').classList.remove('playing');
+                isPlaying = false;
+            } else {
+                if (!bgMusic.src || bgMusic.src === window.location.href) {
+                    loadTrack(0);
+                }
+                bgMusic.play();
+                playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='6' y='4' width='4' height='16'/%3E%3Crect x='14' y='4' width='4' height='16'/%3E%3C/svg%3E";
+                playIcon.alt = "일시정지";
+                document.getElementById('cdDisk').classList.add('playing');
+                isPlaying = true;
+            }
+        }
+        
+        function loadTrack(index) {
+            if (index < 0 || index >= playlist.length) return;
+            
+            currentTrackIndex = index;
+            const track = playlist[index];
+            
+            bgMusic.src = track.file;
+            document.getElementById('trackTitle').textContent = track.title;
+            document.getElementById('trackArtist').textContent = track.artist;
+            
+            renderPlaylist();
+        }
+        
+        function previousTrack() {
+            if (playlist.length === 0) return;
+            
+            let newIndex = currentTrackIndex - 1;
+            if (newIndex < 0) newIndex = playlist.length - 1;
+            
+            loadTrack(newIndex);
+            if (isPlaying) bgMusic.play();
+        }
+        
+        function nextTrack() {
+            if (playlist.length === 0) return;
+            
+            let newIndex;
+            if (isShuffle) {
+                newIndex = Math.floor(Math.random() * playlist.length);
+            } else {
+                newIndex = (currentTrackIndex + 1) % playlist.length;
+            }
+            
+            loadTrack(newIndex);
+            if (isPlaying) bgMusic.play();
+        }
+        
+        function updateProgress() {
+            if (bgMusic.duration) {
+                const progress = (bgMusic.currentTime / bgMusic.duration) * 100;
+                document.getElementById('progressBar').value = progress;
+                
+                document.getElementById('currentTime').textContent = formatTime(bgMusic.currentTime);
+                document.getElementById('totalTime').textContent = formatTime(bgMusic.duration);
+            }
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function seekTrack(e) {
+            const seekTime = (e.target.value / 100) * bgMusic.duration;
+            bgMusic.currentTime = seekTime;
+        }
+        
+        function changeVolume(e) {
+            bgMusic.volume = e.target.value / 100;
+        }
+        
+        function toggleShuffle() {
+            isShuffle = !isShuffle;
+            document.getElementById('shuffleBtn').classList.toggle('active');
+        }
+        
+        function toggleLike() {
+            isLiked = !isLiked;
+            const likeIcon = document.getElementById('likeIcon');
+            
+            if (isLiked) {
+                likeIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b6b' stroke='%23ff6b6b' stroke-width='2'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E";
+            } else {
+                likeIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E";
+            }
+        }
+        
+        function togglePlaylistForm() {
+            const form = document.getElementById('playlistForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function addTrack() {
+            const title = document.getElementById('newTrackTitle').value;
+            const artist = document.getElementById('newTrackArtist').value;
+            const file = document.getElementById('newTrackFile').files[0];
+            
+            if (!title || !artist || !file) {
+                alert('모든 정보를 입력해주세요!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                playlist.push({
+                    id: Date.now(),
+                    title: title,
+                    artist: artist,
+                    file: e.target.result
+                });
+                
+                localStorage.setItem('musicPlaylist', JSON.stringify(playlist));
+                renderPlaylist();
+                
+                document.getElementById('newTrackTitle').value = '';
+                document.getElementById('newTrackArtist').value = '';
+                document.getElementById('newTrackFile').value = '';
+                togglePlaylistForm();
+                
+                alert('곡이 추가되었습니다!');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function renderPlaylist() {
+            const playlistDiv = document.getElementById('playlist');
+            
+            if (playlist.length === 0) {
+                playlistDiv.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">재생목록이 비어있습니다</div>';
+                return;
+            }
+            
+            playlistDiv.innerHTML = playlist.map((track, index) => `
+                <div class="playlist-item ${index === currentTrackIndex ? 'active' : ''}" onclick="playTrackAt(${index})">
+                    <div class="playlist-item-info">
+                        <div class="playlist-item-title">${track.title}</div>
+                        <div class="playlist-item-artist">${track.artist}</div>
+                    </div>
+                    <button class="playlist-item-delete" onclick="event.stopPropagation(); deleteTrack(${index})">×</button>
+                </div>
+            `).join('');
+        }
+        
+        function playTrackAt(index) {
+            const playIcon = document.getElementById('playIcon');
+            
+            loadTrack(index);
+            bgMusic.play();
+            playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='6' y='4' width='4' height='16'/%3E%3Crect x='14' y='4' width='4' height='16'/%3E%3C/svg%3E";
+            playIcon.alt = "일시정지";
+            document.getElementById('cdDisk').classList.add('playing');
+            isPlaying = true;
+        }
+        
+        function deleteTrack(index) {
+            if (confirm('이 곡을 삭제하시겠습니까?')) {
+                const playIcon = document.getElementById('playIcon');
+                
+                playlist.splice(index, 1);
+                localStorage.setItem('musicPlaylist', JSON.stringify(playlist));
+                
+                if (index === currentTrackIndex) {
+                    bgMusic.pause();
+                    isPlaying = false;
+                    playIcon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E";
+                    playIcon.alt = "재생";
+                    document.getElementById('cdDisk').classList.remove('playing');
+                    
+                    if (playlist.length > 0) {
+                        loadTrack(0);
+                    } else {
+                        document.getElementById('trackTitle').textContent = '음악을 선택해주세요';
+                        document.getElementById('trackArtist').textContent = '-';
+                    }
+                }
+                
+                renderPlaylist();
+            }
+        }
+        
+        // 앨범 커버 업로드
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('coverUpload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        albumCover = e.target.result;
+                        document.getElementById('albumCover').src = albumCover;
+                        localStorage.setItem('albumCover', albumCover);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+        
+        // 카테고리 라벨 스타일 변경
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryLabels = document.querySelectorAll('label:has(input[name="category"])');
+            categoryLabels.forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio.checked) {
+                    label.style.borderColor = '#333333';
+                    label.style.background = '#f7f9f9';
+                }
+                
+                radio.addEventListener('change', function() {
+                    categoryLabels.forEach(l => {
+                        l.style.borderColor = '#e1e8ed';
+                        l.style.background = 'white';
+                    });
+                    if (this.checked) {
+                        label.style.borderColor = '#333333';
+                        label.style.background = '#f7f9f9';
+                    }
+                });
+            });
+        });
+        
+        function checkLogin() {
+            const savedLogin = sessionStorage.getItem('blogLoggedIn');
+            if (savedLogin === 'true') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                initMusic();
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        }
+        
+        function checkSitePassword() {
+            const input = document.getElementById('sitePassword').value;
+            const error = document.getElementById('loginError');
+            
+            if (input === SITE_PASSWORD) {
+                isLoggedIn = true;
+                sessionStorage.setItem('blogLoggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                error.style.display = 'none';
+                initMusic();
+            } else {
+                error.style.display = 'block';
+                document.getElementById('sitePassword').value = '';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('sitePassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkSitePassword();
+                    }
+                });
+            }
+        });
+        
+        function togglePasswordInput() {
+            const passwordInput = document.getElementById('postPassword');
+            passwordInputVisible = !passwordInputVisible;
+            passwordInput.style.display = passwordInputVisible ? 'block' : 'none';
+        }
+        
+        function loadData() {
+            const savedPosts = localStorage.getItem('blogPosts');
+            const savedGuestbook = localStorage.getItem('blogGuestbook');
+            const savedProfile = localStorage.getItem('blogProfile');
+            
+            if (savedPosts) posts = JSON.parse(savedPosts);
+            if (savedGuestbook) guestbook = JSON.parse(savedGuestbook);
+            if (savedProfile) {
+                userProfile = JSON.parse(savedProfile);
+                updateProfileDisplay();
+            }
+            
+            renderPosts();
+            renderGuestbook();
+        }
+        
+        function saveData() {
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+            localStorage.setItem('blogGuestbook', JSON.stringify(guestbook));
+            localStorage.setItem('blogProfile', JSON.stringify(userProfile));
+        }
+        
+        function updateProfileDisplay() {
+            document.getElementById('sidebarName').textContent = userProfile.name;
+            document.getElementById('sidebarBio').textContent = userProfile.bio;
+            
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            if (userProfile.avatar) {
+                sidebarAvatar.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                sidebarAvatar.textContent = '👤';
+            }
+            
+            document.getElementById('profileName').value = userProfile.name;
+            document.getElementById('profileBio').value = userProfile.bio;
+            
+            const profilePreview = document.getElementById('profileAvatarPreview');
+            if (userProfile.avatar) {
+                profilePreview.innerHTML = `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                profilePreview.textContent = '👤';
+            }
+        }
+        
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
+        }
+        
+        document.getElementById('writeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const password = document.getElementById('postPassword').value;
+            const imageFile = document.getElementById('postImage').files[0];
+            const category = document.querySelector('input[name="category"]:checked').value;
+            
+            const post = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                password: password,
+                category: category,
+                date: new Date().toLocaleString('ko-KR'),
+                image: null
+            };
+            
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    post.image = e.target.result;
+                    posts.unshift(post);
+                    saveData();
+                    renderPosts();
+                    resetForm();
+                    showSection('posts');
+                    alert('掲示されました!');
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                posts.unshift(post);
+                saveData();
+                renderPosts();
+                resetForm();
+                showSection('posts');
+                alert('掲示されました!');
+            }
+        });
+        
+        function resetForm() {
+            document.getElementById('writeForm').reset();
+            document.getElementById('postPassword').style.display = 'none';
+            passwordInputVisible = false;
+            const artRadio = document.querySelector('input[name="category"][value="art"]');
+            if (artRadio) artRadio.checked = true;
+        }
+        
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderPosts();
+        }
+        
+        function renderPosts() {
+            const timeline = document.getElementById('timeline');
+            
+            let filteredPosts = posts;
+            if (currentFilter !== 'all') {
+                filteredPosts = posts.filter(post => post.category === currentFilter);
+            }
+            
+            if (filteredPosts.length === 0) {
+                timeline.innerHTML = '<div class="empty-state"><p>パジャマだって駆けつけてね　1秒を争うのよ<br>Yシャツに着替える間に　骨まで食べられちゃうわ Yes Help Me</p></div>';
+                return;
+            }
+            
+            timeline.innerHTML = filteredPosts.map(post => {
+                const categoryLabel = post.category === 'art' ? 
+                    '<span class="tweet-category category-art">絵</span>' : 
+                    post.category === 'diary' ?
+                    '<span class="tweet-category category-diary">メモ</span>' :
+                    '<span class="tweet-category category-study">勉強</span>';
+                
+                const avatarHTML = userProfile.avatar ? 
+                    `<img src="${userProfile.avatar}" class="tweet-avatar" style="width: 100%; height: 100%; object-fit: cover;">` :
+                    '<div class="tweet-avatar">👤</div>';
+                
+                return `
+                <div class="tweet" onclick="viewPost(${post.id})">
+                    <div class="tweet-header">
+                        ${avatarHTML}
+                        <div class="tweet-author-info">
+                            <span class="tweet-author">${userProfile.name}</span>
+                            ${categoryLabel}
+                            ${post.password ? '<span class="tweet-lock">🔒</span>' : ''}
+                            <span class="tweet-date">· ${post.date}</span>
+                        </div>
+                    </div>
+                    <div class="tweet-title">${post.title}</div>
+                    ${!post.password ? `
+                        <div class="tweet-content">${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
+                        ${post.image ? `<img src="${post.image}" class="tweet-image" alt="${post.title}">` : ''}
+                    ` : '<div class="tweet-content" style="color: #536471;">이 게시물은 비밀글입니다</div>'}
+                </div>
+            `}).join('');
+        }
+        
+        function viewPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            if (post.password) {
+                currentPostId = postId;
+                document.getElementById('passwordModal').classList.add('active');
+            } else {
+                showPostDetail(post);
+            }
+        }
+        
+        function checkPassword() {
+            const inputPassword = document.getElementById('modalPassword').value;
+            const post = posts.find(p => p.id === currentPostId);
+            
+            if (post && post.password === inputPassword) {
+                closePasswordModal();
+                showPostDetail(post);
+            } else {
+                alert('パスワードが間違っています。');
+            }
+        }
+        
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('modalPassword').value = '';
+            currentPostId = null;
+        }
+        
+        function showPostDetail(post) {
+            const detailDiv = document.getElementById('postDetail');
+            detailDiv.innerHTML = `
+                <div class="detail-title">${post.title}</div>
+                <div class="detail-date">${post.date}</div>
+                ${post.image ? `<img src="${post.image}" class="detail-image" alt="${post.title}">` : ''}
+                <div class="detail-content">${post.content}</div>
+            `;
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('detail').classList.add('active');
+        }
+        
+        document.getElementById('guestbookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('guestName').value;
+            const message = document.getElementById('guestMessage').value;
+            
+            guestbook.unshift({
+                id: Date.now(),
+                name: name,
+                message: message,
+                date: new Date().toLocaleString('ko-KR')
+            });
+            
+            saveData();
+            renderGuestbook();
+            this.reset();
+            alert('芳名録が登録されました!');
+        });
+        
+        function renderGuestbook() {
+            const guestbookList = document.getElementById('guestbookList');
+            
+            if (guestbook.length === 0) {
+                guestbookList.innerHTML = '<div class="empty-state"><p>いらっしゃいませ!</p></div>';
+                return;
+            }
+            
+            guestbookList.innerHTML = guestbook.map(entry => `
+                <div class="guestbook-item">
+                    <div class="guestbook-header">
+                        <span class="guestbook-name">${entry.name}</span>
+                        <span class="guestbook-date">· ${entry.date}</span>
+                    </div>
+                    <div class="guestbook-message">${entry.message}</div>
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userProfile.name = document.getElementById('profileName').value;
+            userProfile.bio = document.getElementById('profileBio').value;
+            
+            saveData();
+            updateProfileDisplay();
+            renderPosts();
+            alert('プロフィールが保存されました！');
+            showSection('posts');
+        });
+        
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatar = e.target.result;
+                    const preview = document.getElementById('profileAvatarPreview');
+                    preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        checkLogin();
+        loadData();
+    </script>
+</body>
+</html>
+                
