@@ -252,12 +252,13 @@
         }
         
         .tweet {
-            padding: 16px 20px;
-            border-bottom: 1px solid #e1e8ed;
-            transition: background 0.2s;
-            display: flex;
-            gap: 12px;
-            align-items: flex-start; 
+        padding: 16px 20px;
+        border-bottom: 1px solid #e1e8ed;
+        transition: background 0.2s;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+}
         }
         
         .tweet:hover {
@@ -1153,7 +1154,7 @@
             
             return `
             <div class="tweet">
-                ${avatarHTML}
+                <div class="tweet-avatar">${userProfile.avatar ? `<img src="${userProfile.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : '👤'}</div>
                 <div class="tweet-body">
                     <div class="tweet-header">
                         <div class="tweet-author-info">
@@ -1174,8 +1175,7 @@
                     </div>
                 </div>
             </div>
-        `}).join('');
-    }
+`
     
     function deletePost(postId, event) {
         event.stopPropagation();
